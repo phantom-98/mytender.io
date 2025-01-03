@@ -139,10 +139,10 @@ const UploadText = ({ folder, get_collections, onClose }) => {
           onChange={(e) => setText(e.target.value)}
           sx={{
             "& .MuiOutlinedInput-root": {
-              fontFamily: '"ClashDisplay", sans-serif'
+              fontFamily: '"Manrope", sans-serif'
             },
             "& .MuiInputLabel-root": {
-              fontFamily: '"ClashDisplay", sans-serif'
+              fontFamily: '"Manrope", sans-serif'
             }
           }}
         />

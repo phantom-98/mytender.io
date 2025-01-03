@@ -1,7 +1,7 @@
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 const selectStyle = {
-  fontFamily: '"ClashDisplay", sans-serif',
+  fontFamily: '"Manrope", sans-serif',
   fontSize: "0.875rem",
   minWidth: "220px",
   backgroundColor: "white", // Add white background
@@ -18,7 +18,7 @@ const selectStyle = {
 };
 const menuStyle = {
   fontSize: "12px",
-  fontFamily: '"ClashDisplay", sans-serif'
+  fontFamily: '"Manrope", sans-serif'
 };
 
 const QuestionTypeDropdown = ({

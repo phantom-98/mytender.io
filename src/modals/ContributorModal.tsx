@@ -29,7 +29,7 @@ const ContributorModal = ({
   const [permissionToChange, setPermissionToChange] = useState(null);
 
   const fontStyle = {
-    fontFamily: '"ClashDisplay", sans-serif'
+    fontFamily: '"Manrope", sans-serif'
   };
 
   const isAdmin = currentUserPermission === "admin";

@@ -182,7 +182,7 @@ const Bids = () => {
   const StyledSelect = styled(
     Select<"ongoing" | "complete">
   )<StyledSelectProps>(({ status }) => ({
-    fontFamily: '"ClashDisplay", sans-serif',
+    fontFamily: '"Manrope", sans-serif',
     fontWeight: "bold",
     fontSize: "14px",
     padding: "5px 10px",
@@ -211,7 +211,7 @@ const Bids = () => {
   }));
 
   const StyledMenuItem = styled(MenuItem)({
-    fontFamily: '"ClashDisplay", sans-serif',
+    fontFamily: '"Manropens-serif',
     fontSize: "14px"
   });
 
@@ -456,9 +456,7 @@ const Bids = () => {
       <div className="lib-container">
         <div className="scroll-container">
           <div className="proposal-header">
-            <h1 id="dashboard-title" className="heavy">
-              Dashboard
-            </h1>
+            <h1 id="dashboard-title">Tender Dashboard</h1>
             <div style={{ display: "flex" }}>
               <Button
                 onClick={handleWriteProposalClick}

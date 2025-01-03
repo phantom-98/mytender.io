@@ -5,14 +5,14 @@ import TextField from "@mui/material/TextField";
 const CustomTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
     width: "400px", // Apply the width directly here
-    fontFamily: '"ClashDisplay", sans-serif', // Apply font family
+    fontFamily: '"Manrope", sans-serif', // Apply font family
     height: "40px", // Specific height
     "& .MuiOutlinedInput-input": {
       padding: "10px" // Adjust padding to center the text
     }
   },
   "& .MuiInputLabel-root": {
-    fontFamily: '"ClashDisplay", sans-serif', // Apply font family to the label
+    fontFamily: '"Manrope", sans-serif', // Apply font family to the label
     top: "-5px" // Adjust label position
   },
   "& .MuiInputLabel-outlined": {

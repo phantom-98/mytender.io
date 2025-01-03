@@ -1,54 +1,54 @@
 .input-options-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 0;
-  font-family: "ClashDisplay", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 0;
+    font-family: "Manrope", sans-serif;
 }
 
 .upload-button {
-  background-color: #262626;
-  color: white;
-  padding: 8px 14px;
-  border: none;
-  cursor: pointer;
-  font-weight: 550;
-  font-size: 0.9rem;
-  border-radius: 8px;
-  outline: none !important;
-  /* Ensure no focus outline */
-  box-shadow: none !important;
-  /* Ensure no box-shadow */
+    background-color: #262626;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    cursor: pointer;
+    font-weight: 550;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    outline: none !important;
+    /* Ensure no focus outline */
+    box-shadow: none !important;
+    /* Ensure no box-shadow */
 }
 
 .uploader-input {
-  width: 700px !important;
-  font-family: "ClashDisplay", sans-serif !important;
-  font-weight: bolder;
+    width: 700px !important;
+    font-family: "Manrope", sans-serif !important;
+    font-weight: bolder;
 }
 
 .upload-button:disabled,
 .upload-button.btn-disabled {
-  background-color: #262626 !important;
-  /* Black background when disabled */
-  color: white !important;
-  cursor: not-allowed;
+    background-color: #262626 !important;
+    /* Black background when disabled */
+    color: white !important;
+    cursor: not-allowed;
 }
 
 .upload-button:hover:not(:disabled) {
-  background-color: #3b3b3b;
+    background-color: #3b3b3b;
 }
 
 .upload-button:active:not(:disabled) {
-  background-color: #3b3b3b;
+    background-color: #3b3b3b;
 }
 
 .upload-button:focus,
 .upload-button:focus-visible {
-  outline: none !important;
-  box-shadow: none !important;
-  background-color: #262626;
-  /* Ensures it doesn't flash blue */
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: #262626;
+    /* Ensures it doesn't flash blue */
 }

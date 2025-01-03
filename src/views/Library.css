@@ -1,393 +1,392 @@
 .lib-container {
-  width: 125vw;
-  /* Adjusted to account for padding-left */
-  height: 125vh;
-  /* Assuming 40px top margin and 30px top padding */
-  background-color: #faf7f7;
-  justify-content: center;
-  padding-top: 55px;
-  padding-left: 185px;
-  padding-right: 0px;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
-  margin: 0;
-  /* Use auto instead of scroll to handle both overflow cases */
+    width: 125vw;
+    /* Adjusted to account for padding-left */
+    height: 125vh;
+    /* Assuming 40px top margin and 30px top padding */
+    background-color: white;
+    justify-content: center;
+    padding-top: 10px;
+    padding-left: 290px;
+    padding-right: 0px;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    margin: 0;
+    /* Use auto instead of scroll to handle both overflow cases */
 }
 
 .scroll-container {
-  /* Adjusted to account for padding-left */
-  /* Assuming 40px top margin and 30px top padding */
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 15px;
-  padding-left: 20px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  /* Use auto instead of scroll to handle both overflow cases */
+    /* Adjusted to account for padding-left */
+    /* Assuming 40px top margin and 30px top padding */
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 15px;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Use auto instead of scroll to handle both overflow cases */
 }
 
 .library-container {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  border: 1px solid #ced4da;
-  margin-bottom: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid #ced4da;
+    margin-bottom: 20px;
 }
 
 .upload-component {
-  display: flex;
-  min-height: 50vh;
-  max-height: 50vh;
-  /* Adjust the width of the upload component as needed */
+    display: flex;
+    min-height: 50vh;
+    max-height: 50vh;
+    /* Adjust the width of the upload component as needed */
 }
 
 .header-container {
-  margin-top: 15px;
-  margin-right: 15px;
+    margin-top: 15px;
+    margin-right: 15px;
 }
 
 .library-table {
-  width: 100%;
-  table-layout: fixed;
-  margin: 0;
-  padding: 0;
-  border-collapse: collapse;
-  /* Updated for border application */
-  border-spacing: 0;
-  overflow: hidden;
-  margin-bottom: 0;
+    width: 100%;
+    table-layout: fixed;
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+    /* Updated for border application */
+    border-spacing: 0;
+    overflow: hidden;
+    margin-bottom: 0;
 }
 
 .library-table th,
 .library-table td {
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  padding: 10px;
-  text-overflow: ellipsis;
-  border-bottom: 1px solid #ddd;
-  width: 100%;
-  /* Add horizontal line between rows */
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 10px;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+    /* Add horizontal line between rows */
 }
+
 
 /* Add left margin to the first column */
 
 .library-table td:first-child,
 .library-table th:first-child {
-  padding-left: 16px;
-  /* Increase left padding for the first column */
+    padding-left: 16px;
+    /* Increase left padding for the first column */
 }
 
 .library-table th {
-  background-color: white;
-  font-weight: 500;
-  color: black;
-  width: 100%;
+    background-color: white;
+    font-weight: 500;
+    color: black;
+    width: 100%;
 }
 
 .library-table td:last-child,
 .library-table th:last-child {
-  text-align: right;
+    text-align: right;
 }
+
 
 /* Specifically target the Action column to make it narrower */
 
 .library-table tr:last-child td {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .lib-custom-card {
-  background-color: white;
-  border: none;
-  width: 100%;
-  /* Remove borders */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* Add a subtle shadow */
+    background-color: white;
+    border: none;
+    width: 100%;
+    /* Remove borders */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Add a subtle shadow */
 }
 
 .lib-custom-card-title {
-  font-size: 22px;
-  font-weight: 600;
-  margin-top: 20px;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 20px;
 }
 
 .header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .lib-title {
-  font-size: 22px;
-  font-weight: 600;
+    font-size: 22px;
+    font-weight: 600;
 }
 
 .lib-custom-card .card-body {
-  padding: 0px;
-  /* Adjust padding as needed */
+    padding: 0px;
+    /* Adjust padding as needed */
 }
 
 .fa-icon {
-  margin-right: 8px;
-  /* Adjust the spacing as needed */
+    margin-right: 8px;
+    /* Adjust the spacing as needed */
 }
+
 
 /* Button with ellipsis icon */
 
 .ellipsis-icon {
-  color: black;
+    color: black;
 }
 
 .ellipsis-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: background-color 0.3s;
-  outline: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+    outline: none;
 }
 
 .ellipsis-button:hover {
-  background-color: #f2f2f2;
-  /* Slightly darker for better visibility on hover */
+    background-color: #f2f2f2;
+    /* Slightly darker for better visibility on hover */
 }
 
 .search-bar-container {
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  min-width: 500px;
-  background-color: none;
-  border-radius: 25px;
-  z-index: 1;
-  height: 45px;
-  margin-left: 0px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    min-width: 500px;
+    background-color: none;
+    border-radius: 25px;
+    z-index: 1;
+    height: 45px;
+    margin-left: 0px;
 }
 
 .search-bar-container.dropdown-visible {
-  box-shadow:
-    0 6px 8px rgba(0, 0, 0, 0.15),
-    0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .search-bar-library {
-  background-color: #f2f2f2;
-  /* Light grey background */
-  color: #333;
-  /* Dark grey text */
-  padding: 10px;
-  padding-left: 50px;
-  border-radius: 25px !important;
-  width: 100%;
-  outline: none;
-  box-shadow: none;
-  border: none !important;
-  border-right: 1px #f2f2f2 solid !important;
-  /* Light grey border */
-  box-sizing: border-box;
-  /* Added transition for smooth shadow change */
-  height: 45px;
-  padding-right: 30px;
+    background-color: #f2f2f2;
+    /* Light grey background */
+    color: #333;
+    /* Dark grey text */
+    padding: 10px;
+    padding-left: 50px;
+    border-radius: 25px !important;
+    width: 100%;
+    outline: none;
+    box-shadow: none;
+    border: none !important;
+    border-right: 1px #f2f2f2 solid !important;
+    /* Light grey border */
+    box-sizing: border-box;
+    /* Added transition for smooth shadow change */
+    height: 45px;
+    padding-right: 30px;
 }
 
 .search-bar-library.dropdown-visible {
-  border-top-left-radius: 25px !important;
-  border-top-right-radius: 25px !important;
-  border-bottom-left-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;
+    border-top-left-radius: 25px !important;
+    border-top-right-radius: 25px !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
 }
 
 .search-bar-library:focus {
-  background-color: white;
-  color: #333;
-  outline: none;
-  box-sizing: border-box;
-  box-shadow: none;
+    background-color: white;
+    color: #333;
+    outline: none;
+    box-sizing: border-box;
+    box-shadow: none;
 }
 
 .search-bar-library::placeholder {
-  color: #757575;
-  /* Medium grey for placeholder */
+    color: #757575;
+    /* Medium grey for placeholder */
 }
 
 .search-icon {
-  position: absolute;
-  left: 15px;
-  color: #333 !important;
-  /* Medium grey for icon */
-  pointer-events: none;
-  font-size: 1rem !important;
-  z-index: 100;
-  margin: 0;
+    position: absolute;
+    left: 15px;
+    color: #333 !important;
+    /* Medium grey for icon */
+    pointer-events: none;
+    font-size: 1rem !important;
+    z-index: 100;
+    margin: 0;
 }
 
 .clear-search-icon {
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #333;
-  z-index: 100;
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #333;
+    z-index: 100;
 }
 
 .clear-search-icon:hover {
-  color: #333;
+    color: #333;
 }
 
 .search-results-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: white;
-  /* Very light grey for dropdown */
-  max-height: 200px;
-  overflow-y: auto;
-  width: 100%;
-  z-index: 0;
-  border-radius: 0 0 25px 25px !important;
-  border: none !important;
-  border-top: 1px #bdbdbd solid !important;
-  box-shadow:
-    0 6px 8px rgba(0, 0, 0, 0.15),
-    0 1px 3px rgba(0, 0, 0, 0.1);
-  /* Light grey border */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    /* Very light grey for dropdown */
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+    z-index: 0;
+    border-radius: 0 0 25px 25px !important;
+    border: none !important;
+    border-top: 1px #bdbdbd solid !important;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* Light grey border */
 }
 
 .search-result-item {
-  padding: 10px;
-  padding-left: 18px;
-  cursor: pointer;
-  color: #333;
-  /* Dark grey text */
-  background-color: white;
-  /* Very light grey background */
-  margin: 0%;
+    padding: 10px;
+    padding-left: 18px;
+    cursor: pointer;
+    color: #333;
+    /* Dark grey text */
+    background-color: white;
+    /* Very light grey background */
+    margin: 0%;
 }
 
 .search-result-item:hover {
-  background-color: #f5f5f5;
-  /* Light grey for hover effect */
+    background-color: #f5f5f5;
+    /* Light grey for hover effect */
 }
 
 .result-icon {
-  margin-right: 20px;
+    margin-right: 20px;
 }
 
 .library-card-custom {
-  height: 750px;
-  margin-top: 5px;
+    height: 750px;
+    margin-top: 5px;
 }
 
 .library-card-body-content {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .library-card-content-wrapper {
-  flex: 1;
-  overflow: hidden;
-  /* Space between content and pagination */
+    flex: 1;
+    overflow: hidden;
+    /* Space between content and pagination */
 }
 
 .tenderlibrary-card-body-content {
-  display: flex;
-  flex-direction: column;
-  height: 500px;
-  overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    overflow: hidden;
 }
 
 .pagination-controls {
-  flex-shrink: 0;
-  /* Ensures the pagination doesn't shrink */
-  margin-top: auto;
-  display: flex;
-  padding: 1rem 0;
-  margin-left: 10px;
+    flex-shrink: 0;
+    /* Ensures the pagination doesn't shrink */
+    margin-top: auto;
+    display: flex;
+    padding: 1rem 0;
+    margin-left: 10px;
 }
 
 .pagination-controls button {
-  padding: 5px 10px;
-  margin-right: 5px;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 5px;
+    padding: 5px 10px;
+    margin-right: 5px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
 }
 
 .pdf-viewer-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 125vh;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 20;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 125vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
 }
 
 .pdf-viewer-modal-content {
-  position: relative;
-  width: 100%;
-  max-width: 1400px;
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .pdf-viewer-modal iframe {
-  border: none;
+    border: none;
 }
 
 .breadcrumb-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  /* Match the left padding of the first table cell */
-  width: 100%;
-  border-bottom: 1px solid #dee2e6;
-  box-sizing: border-box;
-  /* Ensure padding is included in the width */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    /* Match the left padding of the first table cell */
+    width: 100%;
+    border-bottom: 1px solid #dee2e6;
+    box-sizing: border-box;
+    /* Ensure padding is included in the width */
 }
 
 .breadcrumb-item {
-  font-weight: 500;
-  font-size: 18px;
+    font-weight: 500;
+    font-size: 18px;
 }
 
 .breadcrumb-item.clickable {
-  cursor: pointer;
-  color: #ff7f50;
+    cursor: pointer;
+    color: #ff7f50;
 }
 
 .breadcrumb-item.clickable:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .breadcrumb-separator {
-  margin: 0 5px;
-  color: #6c757d;
+    margin: 0 5px;
+    color: #6c757d;
 }
 
 .styled-menu-item {
-  font-family: "ClashDisplay", sans-serif !important;
-  font-size: 14px !important;
-  padding: 6px 12px !important;
+    font-family: "Manrope", sans-serif !important;
+    font-size: 14px !important;
+    padding: 6px 12px !important;
 }
 
 .styled-menu-item-icon {
-  margin-right: 8px;
-  font-size: 14px;
+    margin-right: 8px;
+    font-size: 14px;
 }

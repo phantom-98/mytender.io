@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./SidebarSmall.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import sidebarIcon from "../resources/images/mytender.io_badge.png"; // Add this at the top with other imports
 
 import {
   faBookOpen,
@@ -82,6 +83,11 @@ const SideBarSmall = () => {
   return (
     <div className="sidebarsmall">
       <div>
+        <div className="sidebar-header">
+          <img src={sidebarIcon} alt="mytender.io logo" />
+          <span>mytender.io</span>
+        </div>
+
         <Link
           to="#"
           className={`sidebarsmalllink ${isActive("/bids") || isActive("/bid-extractor") || isActive("/question-crafter") || isActive("/proposal") ? "sidebarsmalllink-active" : ""}`}
@@ -89,14 +95,6 @@ const SideBarSmall = () => {
         >
           <FontAwesomeIcon icon={faLayerGroup} />
           <span id="bids-table">Dashboard</span>
-        </Link>
-
-        <Link
-          to="/library"
-          className={`sidebarsmalllink ${isActive("/library") ? "sidebarsmalllink-active" : ""}`}
-        >
-          <FontAwesomeIcon icon={faBookOpen} />
-          <span id="library-title">Content Library</span>
         </Link>
 
         <Link
@@ -114,16 +112,6 @@ const SideBarSmall = () => {
           <FontAwesomeIcon icon={faCircleQuestion} />
           <span>Q&A Generator</span>
         </Link>
-      </div>
-
-      <div className="signout-container">
-        <Link
-          to="/profile"
-          className={`sidebarsmalllink ${isActive("/profile") ? "sidebarsmalllink-active" : ""}`}
-        >
-          <FontAwesomeIcon icon={faUser} />
-          <span>Profile</span>
-        </Link>
 
         <Link
           to="#"
@@ -133,6 +121,17 @@ const SideBarSmall = () => {
           <FontAwesomeIcon icon={faFileWord} />
           <span>Wordpane</span>
         </Link>
+      </div>
+
+      <div className="signout-container">
+        <Link
+          to="/library"
+          className={`bordered-sidebar-link sidebarsmalllink ${isActive("/library") ? "sidebarsmalllink-active" : ""}`}
+        >
+          <FontAwesomeIcon icon={faBookOpen} />
+          <span id="library-title">Content Library</span>
+        </Link>
+
         <Link
           to="https://app.storylane.io/demo/tui6kl0bnkrw?embed=inline"
           className="sidebarsmalllink"
@@ -141,16 +140,22 @@ const SideBarSmall = () => {
         >
           <FontAwesomeIcon icon={faGraduationCap} />{" "}
           {/* Academic cap icon - perfect for tutorials */}
-          <span>Tutorial</span>
+          <span>How To</span>
         </Link>
-
         <Link
+          to="/profile"
+          className={`sidebarsmalllink ${isActive("/profile") ? "sidebarsmalllink-active" : ""}`}
+        >
+          <FontAwesomeIcon icon={faUser} />
+          <span>Profile</span>
+        </Link>
+        {/* <Link
           to="/logout"
           className={`sidebarsmalllink ${isActive("/logout") ? "sidebarsmalllink-active" : ""}`}
         >
           <FontAwesomeIcon icon={faReply} />
           <span>Logout</span>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

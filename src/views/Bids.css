@@ -31,7 +31,6 @@
     border-spacing: 0;
     overflow: hidden;
     margin-bottom: 20px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     border: 1px solid #ced4da;
     min-width: 1200px;
 }
@@ -137,12 +136,12 @@
 .sort-options {
     display: flex;
     align-items: center;
-    font-family: "ClashDisplay", sans-serif;
+    font-family: "Manrope", sans-serif;
     /* Ensure you have this font imported */
 }
 
 .sort-select-option {
-    font-family: "ClashDisplay", sans-serif !important;
+    font-family: "Manrope", sans-serif !important;
     font-size: 0.8rem;
     padding: 5px 10px;
     box-shadow: none !important;

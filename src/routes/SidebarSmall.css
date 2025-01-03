@@ -1,68 +1,77 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap");
+
+/* Add this new style for the header */
+
 .sidebarsmall {
   height: 125vh;
+  /* Changed from 125vh to 100vh */
   margin-top: 0px;
-  width: 185px;
-  /* Adjust width as needed */
+  width: 290px;
   position: fixed;
   z-index: 200;
   top: 0;
   left: 0;
-  background-color: #262626;
+  background-color: #f8f9fb;
   overflow-x: hidden;
-  padding-top: 65px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-top: 10px;
   margin-bottom: 0;
   border: none;
-  /* Add some padding to the left */
+  border-right: #d9d1e0 solid 0.5px;
+  /* Add these new properties */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .sidebarsmall a {
   justify-content: start;
   /* Align items horizontally at the start */
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 16px;
+  padding-bottom: 16px;
   /* Top and bottom padding only */
   text-decoration: none;
-  color: white;
-  font-weight: 500;
+  color: #535e65;
   display: flex;
   align-items: center;
-  font-size: 20px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
   /* Reduce the distance between each line */
-  border-radius: 10px;
-  /* Rounded edges for the rectangle */
 }
 
 .sidebarsmall a span {
-  font-size: 14px;
+  font-size: 17px;
+  font-weight: 550 !important;
   /* Reduce text size */
 }
 
 .sidebarsmall a:hover {
-  color: white;
-  /* Keep text color white on hover */
-  background-color: #757575;
+  color: #535e65;
+  /* Keep text color #535E65 on hover */
+  background-color: #ffeedf;
+  /* Grey background on hover */
+}
+
+.sidebarsmall a:active {
+  color: #535e65;
+  /* Keep text color #535E65 on hover */
+  background-color: #ffeedf;
   /* Grey background on hover */
 }
 
 .sidebarsmall a svg {
   margin: 0 10px 0 0;
-  margin-left: 10px;
+  margin-left: 15px;
   /* Add margin to the right of SVG to create a gap */
-  width: 16px;
-  height: 16px;
+  width: 26px;
+  height: 26px;
 }
 
 .sidebarsmall-image-link {
   display: flex;
   align-items: center;
-  padding: 10px 0;
   text-decoration: none;
-  color: white;
-  font-weight: 500;
+  color: #535e65;
+  font-weight: 800;
   margin-top: 5px;
   margin-bottom: 5px;
 }
@@ -76,22 +85,36 @@
 }
 
 .signout-container {
-  border-top: 2px solid #757575;
-  /* Add a bar above the signout link */
-  padding-top: 10px;
-  margin-top: 10px;
+  padding-bottom: 10px;
 }
 
 .signout-link {
   margin-top: auto;
 }
 
-.sidebarsmalllink-active {
-  color: orange;
-  /* Set the color to orange */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
-.sidebarsmalllink-active svg {
-  color: orange;
-  /* This will make the SVG icon orange */
+.sidebar-header img {
+  width: 42px;
+  height: 42px;
+  margin-right: 10px;
+}
+
+.sidebar-header span {
+  font-family: "Poppins", sans-serif;
+  font-size: 25px;
+  font-weight: 600;
+  color: black;
+}
+
+.bordered-sidebar-link {
+  border-top: #d9d1e0 solid 2px;
+  border-bottom: #d9d1e0 solid 2px;
 }

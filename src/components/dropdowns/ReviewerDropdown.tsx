@@ -10,7 +10,7 @@ interface ReviewerDropdownProps {
 }
 
 const selectStyle = {
-  fontFamily: '"ClashDisplay", sans-serif',
+  fontFamily: '"Manrope", sans-serif',
   fontSize: "0.875rem",
   minWidth: "220px",
   backgroundColor: "white",
@@ -28,7 +28,7 @@ const selectStyle = {
 
 const menuStyle = {
   fontSize: "12px",
-  fontFamily: '"ClashDisplay", sans-serif'
+  fontFamily: '"Manrope", sans-serif'
 };
 
 const menuItemStyle = {

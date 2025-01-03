@@ -1,43 +1,45 @@
 @font-face {
-  font-family: "ClashDisplay";
-  src: url("../resources/fonts/ClashDisplay-Variable.ttf") format("ttf");
-  font-weight: normal;
-  font-style: normal;
+    font-family: "Manrope";
+    src: url("../resources/fonts/Manrope-Variable.ttf") format("ttf");
+    font-weight: normal;
+    font-style: normal;
 }
 
 :root {
-  --font-family: "ClashDisplay", sans-serif;
+    --font-family: "Manrope", sans-serif;
 }
 
 #root {
-  margin: 0;
-  background-color: white;
-  padding: 0;
-  transform-origin: top left;
-  transform: scale(0.8);
-  width: 125vw;
-  height: 100vh;
-  overflow: hidden !important;
-  font-family: var(--font-family) !important;
+    margin: 0;
+    background-color: white;
+    padding: 0;
+    transform-origin: top left;
+    transform: scale(0.8);
+    width: 125vw;
+    height: 100vh;
+    overflow: hidden !important;
+    font-family: var(--font-family) !important;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  font-family: var(--font-family) !important;
-  font-weight: 500;
-  font-size: 14px;
-  overflow-x: hidden !important;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    font-family: var(--font-family) !important;
+    font-weight: 500;
+    font-size: 14px;
+    overflow-x: hidden !important;
 }
 
 .main-content {
-  padding: 0px;
-  overflow-y: auto;
-  overflow-x: hidden !important;
-  font-family: var(--font-family) !important;
-  height: 100%;
+    padding: 0px;
+    overflow-y: auto;
+    overflow-x: hidden !important;
+    font-family: var(--font-family) !important;
+    height: 100%;
 }
+
+
 /* Ensure all text elements use the font */
 
 h1,
@@ -53,45 +55,50 @@ button,
 input,
 textarea,
 select {
-  font-family: var(--font-family) !important;
+    font-family: var(--font-family) !important;
 }
+
+
 /* Adjust other styles as needed */
 
 .dropdowns-container {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  /* Reduced from 10px */
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    /* Reduced from 10px */
 }
 
 .content-scaler {
-  height: 100%;
-  max-height: 100%;
+    height: 100%;
+    max-height: 100%;
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg) scale(0.6);
-    /* Reduced from 0.7 */
-  }
-  to {
-    transform: rotate(360deg) scale(0.6);
-    /* Reduced from 0.7 */
-  }
+    from {
+        transform: rotate(0deg) scale(0.6);
+        /* Reduced from 0.7 */
+    }
+    to {
+        transform: rotate(360deg) scale(0.6);
+        /* Reduced from 0.7 */
+    }
 }
+
+
 /* You may need to adjust other specific component styles */
+
 .container,
 #container {
-  width: 100%;
-  height: 100vh;
+    width: 100%;
+    height: 100vh;
 }
 
-#container > div {
-  height: 100%;
+#container>div {
+    height: 100%;
 }
 
-#container > div > div {
-  height: 125vh;
-  max-height: 125vh;
-  overflow-y: hidden;
+#container>div>div {
+    height: 125vh;
+    max-height: 125vh;
+    overflow-y: hidden;
 }
