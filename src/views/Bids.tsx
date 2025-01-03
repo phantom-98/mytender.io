@@ -21,6 +21,8 @@ import { Select, MenuItem, FormControl, Skeleton } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
 import withAuth from "../routes/withAuth.tsx";
+import SearchInput from "../components/inputbars/SearchInput.tsx";
+import ViewToggle from "../buttons/ViewToggle.tsx";
 
 const Bids = () => {
   const [bids, setBids] = useState([]);
@@ -470,6 +472,11 @@ const Bids = () => {
             </div>
           </div>
 
+          <div className="mt-3 mb-4 proposal-header">
+            <SearchInput />
+            <ViewToggle />
+          </div>
+
           <table className="bids-table mt-1">
             <thead>
               <tr>
@@ -484,7 +491,7 @@ const Bids = () => {
                     {getSortIcon(header.key)}
                   </th>
                 ))}
-                <th style={{ textAlign: "center", width: "5%" }}>Delete</th>
+                <th style={{ textAlign: "center", width: "5%" }}></th>
               </tr>
             </thead>
             <tbody>

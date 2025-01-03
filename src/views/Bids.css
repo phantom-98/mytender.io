@@ -31,8 +31,8 @@
     border-spacing: 0;
     overflow: hidden;
     margin-bottom: 20px;
-    border: 1px solid #ced4da;
     min-width: 1200px;
+    border: 1.5px solid #d9d1e0;
 }
 
 .bids-table th:nth-child(1) {
@@ -75,13 +75,12 @@
 
 /* Delete */
 
-.bids-table th,
 .bids-table td {
     white-space: nowrap;
     overflow: hidden;
     padding: 12px;
     text-overflow: ellipsis;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1.5px solid #ddd;
     box-sizing: border-box;
 }
 
@@ -94,9 +93,15 @@
 }
 
 .bids-table th {
-    background-color: #f2f2f2;
-    font-weight: 500;
+    background-color: white;
+    font-weight: 600;
     color: black;
+    overflow: hidden;
+    padding: 12px;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    border-bottom: 1.5px solid #d9d1e0;
+    font-size: 18px;
 }
 
 
