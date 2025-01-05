@@ -13,16 +13,15 @@ import {
   faPlus,
   faSort,
   faSortDown,
-  faSortUp,
-  faTrash
+  faSortUp
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Select, MenuItem, FormControl, Skeleton } from "@mui/material";
-import { SelectChangeEvent } from "@mui/material/Select";
-import { styled } from "@mui/material/styles";
-import withAuth from "../routes/withAuth.tsx";
+import { Skeleton } from "@mui/material";
 import SearchInput from "../components/inputbars/SearchInput.tsx";
 import ViewToggle from "../buttons/ViewToggle.tsx";
+import StatusMenu from "../buttons/StatusMenu.tsx";
+import EllipsisMenuDashboard from "../buttons/EllipsisMenuDashboard.tsx";
+import withAuth from "../routes/withAuth.tsx";
 
 const Bids = () => {
   const [bids, setBids] = useState([]);
@@ -35,6 +34,7 @@ const Bids = () => {
   const getAuth = useAuthUser();
   const auth = getAuth();
   const tokenRef = useRef(auth?.token || "default");
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   // Sorting bids based on the selected criteria
@@ -59,10 +59,6 @@ const Bids = () => {
   interface SortConfig {
     key: keyof Bid;
     direction: "asc" | "desc";
-  }
-
-  interface StyledSelectProps {
-    status?: "ongoing" | "complete";
   }
 
   interface ApiResponse {
@@ -130,6 +126,20 @@ const Bids = () => {
     return sortedData;
   };
 
+  const filterBids = (bids: Bid[], searchTerm: string): Bid[] => {
+    if (!searchTerm) return bids;
+
+    const lowercaseSearch = searchTerm.toLowerCase();
+    return bids.filter((bid) => {
+      return (
+        bid.bid_title?.toLowerCase().includes(lowercaseSearch) ||
+        bid.client_name?.toLowerCase().includes(lowercaseSearch) ||
+        bid.value?.toLowerCase().includes(lowercaseSearch) ||
+        bid.status?.toLowerCase().includes(lowercaseSearch)
+      );
+    });
+  };
+
   const requestSort = (key: keyof Bid): void => {
     let direction: "asc" | "desc" = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
@@ -150,29 +160,21 @@ const Bids = () => {
   };
   // Update the table header to include sorting
   const headers = [
-    { key: "bid_title", label: "Tender Name", width: "18%" },
+    { key: "bid_title", label: "Tender Name" },
     { key: "timestamp", label: "Last edited" },
-    { key: "status", label: "Status" },
-    { key: "client_name", label: "Client" },
-    { key: "submission_deadline", label: "Deadline", width: "10%" },
-    { key: "bid_manager", label: "Bid Manager", width: "15%" },
-    { key: "opportunity_owner", label: "Opportunity Owner", width: "15%" },
-    { key: "bid_qualification_result", label: "Result" }
+    { key: "value", label: "Value" },
+    { key: "submission_deadline", label: "Deadline" },
+    { key: "status", label: "Status" }
+    // { key: "client_name", label: "Client" },
+
+    //{ key: "bid_manager", label: "Bid Manager", width: "15%" },
+    //{ key: "opportunity_owner", label: "Opportunity Owner", width: "15%" },
+    //{ key: "bid_qualification_result", label: "Result" }
   ];
   // Sort the bids before pagination
-  const sortedBids = sortData(bids, sortConfig);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const bidsPerPage = 11;
-
-  // Calculate the current bids to display
-  const indexOfLastBid = currentPage * bidsPerPage;
-  const indexOfFirstBid = indexOfLastBid - bidsPerPage;
-  const currentBids = sortedBids.slice(indexOfFirstBid, indexOfLastBid);
-
-  // Change page
-  const paginate = (pageNumber: React.SetStateAction<number>) =>
-    setCurrentPage(pageNumber);
+  const filteredBids = filterBids(bids, searchTerm);
+  const sortedBids = sortData(filteredBids, sortConfig);
+  const currentBids = sortedBids;
 
   const navigateToChatbot = (bid: any) => {
     localStorage.setItem("navigatedFromBidsTable", "true");
@@ -180,42 +182,6 @@ const Bids = () => {
     navigate("/bid-extractor", { state: { bid: bid, fromBidsTable: true } });
     handleGAEvent("Bid Tracker", "Navigate to Bid", "Bid Table Link");
   };
-
-  const StyledSelect = styled(
-    Select<"ongoing" | "complete">
-  )<StyledSelectProps>(({ status }) => ({
-    fontFamily: '"Manrope", sans-serif',
-    fontWeight: "bold",
-    fontSize: "14px",
-    padding: "5px 10px",
-    borderRadius: "5px",
-    width: "140px",
-    color: "#fff",
-    border: "none",
-    cursor: "pointer",
-    backgroundColor: status === "ongoing" ? "orange" : "black",
-
-    "& .MuiSelect-select": {
-      padding: "2px 2px"
-    },
-    "& .MuiOutlinedInput-notchedOutline": {
-      border: "none"
-    },
-    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      border: "none"
-    },
-    "&:hover .MuiOutlinedInput-notchedOutline": {
-      border: "none"
-    },
-    "& .MuiSvgIcon-root": {
-      color: status === "ongoing" ? "inherit" : "#fff"
-    }
-  }));
-
-  const StyledMenuItem = styled(MenuItem)({
-    fontFamily: '"Manropens-serif',
-    fontSize: "14px"
-  });
 
   const fetchBids = async () => {
     setLoading(true);
@@ -431,15 +397,6 @@ const Bids = () => {
       <td>
         <Skeleton variant="text" width="100%" />
       </td>
-      <td>
-        <Skeleton variant="text" width="100%" />
-      </td>
-      <td>
-        <Skeleton variant="text" width="100%" />
-      </td>
-      <td>
-        <Skeleton variant="text" width="100%" />
-      </td>
       <td style={{ textAlign: "center" }}>
         <Skeleton
           variant="rounded"
@@ -456,7 +413,7 @@ const Bids = () => {
       <SideBarSmall />
 
       <div className="lib-container">
-        <div className="scroll-container">
+        <div className="padded-container">
           <div className="proposal-header">
             <h1 id="dashboard-title">Tender Dashboard</h1>
             <div style={{ display: "flex" }}>
@@ -473,79 +430,53 @@ const Bids = () => {
           </div>
 
           <div className="mt-3 mb-4 proposal-header">
-            <SearchInput />
+            <SearchInput value={searchTerm} onChange={setSearchTerm} />
             <ViewToggle />
           </div>
-
-          <table className="bids-table mt-1">
-            <thead>
-              <tr>
-                {headers.map((header) => (
-                  <th
-                    key={header.key}
-                    style={{ width: header.width, cursor: "pointer" }}
-                    onClick={() => requestSort(header.key)}
-                    className="sortable-header"
-                  >
-                    {header.label}
-                    {getSortIcon(header.key)}
-                  </th>
-                ))}
-                <th style={{ textAlign: "center", width: "5%" }}></th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading
-                ? [...Array(14)].map((_, index) => <SkeletonRow key={index} />)
-                : currentBids.map((bid, index) => (
+          <div className="table-wrapper">
+            <table className="bids-table mt-1">
+              <thead>
+                <tr>
+                  {headers.map((header) => (
+                    <th
+                      key={header.key}
+                      onClick={() => requestSort(header.key)}
+                      className="sortable-header"
+                    >
+                      {header.label}
+                      {getSortIcon(header.key)}
+                    </th>
+                  ))}
+                  <th style={{ textAlign: "center", width: "5%" }}></th>
+                </tr>
+              </thead>
+              <tbody>
+                {loading ? (
+                  Array(13)
+                    .fill(0)
+                    .map((_, index) => <SkeletonRow key={index} />)
+                ) : currentBids.length > 0 ? (
+                  currentBids.map((bid, index) => (
                     <tr key={index}>
-                      <td>
-                        <Link
-                          to="/bid-extractor"
-                          state={{ bid: bid, fromBidsTable: true }}
-                          onClick={() => navigateToChatbot(bid)}
-                        >
-                          {bid.bid_title}
-                        </Link>
+                      <td className="bid-title-cell">
+                        <div className="truncate-wrapper">
+                          <Link
+                            to="/bid-extractor"
+                            state={{ bid: bid, fromBidsTable: true }}
+                            onClick={() => navigateToChatbot(bid)}
+                            className="truncate-text"
+                          >
+                            {bid.bid_title}
+                          </Link>
+                        </div>
                       </td>
-                      <td>
+                      <td className="date-cell">
                         {bid.timestamp
                           ? new Date(bid.timestamp).toLocaleDateString()
                           : ""}
                       </td>
-                      <td>
-                        <FormControl fullWidth>
-                          <StyledSelect
-                            value={
-                              bid.status.toLowerCase() as "ongoing" | "complete"
-                            }
-                            onChange={(
-                              e: SelectChangeEvent<"ongoing" | "complete">
-                            ) => {
-                              // Type guard to ensure value is either "ongoing" or "complete"
-                              if (
-                                e.target.value === "ongoing" ||
-                                e.target.value === "complete"
-                              ) {
-                                updateBidStatus(bid._id, e.target.value);
-                              }
-                            }}
-                            className={`status-dropdown ${bid.status.toLowerCase()}`}
-                            status={
-                              bid.status.toLowerCase() as "ongoing" | "complete"
-                            }
-                          >
-                            <StyledMenuItem value="ongoing">
-                              Ongoing
-                            </StyledMenuItem>
-                            <StyledMenuItem value="complete">
-                              Complete
-                            </StyledMenuItem>
-                          </StyledSelect>
-                        </FormControl>
-                      </td>
-                      <td>{bid.client_name}</td>
-                      <td>
+                      <td className="value-cell">{bid.value}</td>
+                      <td className="date-cell">
                         {bid.submission_deadline &&
                         !isNaN(Date.parse(bid.submission_deadline))
                           ? new Date(
@@ -553,34 +484,31 @@ const Bids = () => {
                             ).toLocaleDateString()
                           : ""}
                       </td>
-                      <td>{bid.bid_manager}</td>
-                      <td>{bid.opportunity_owner}</td>
-                      <td>{bid.bid_qualification_result || ""}</td>
-                      <td style={{ textAlign: "center" }}>
-                        <FontAwesomeIcon
-                          icon={faTrash}
+                      <td className="status-cell">
+                        <StatusMenu
+                          value={bid.status}
+                          onChange={(value) => {
+                            updateBidStatus(bid._id, value);
+                          }}
+                        />
+                      </td>
+                      <td className="action-cell">
+                        <EllipsisMenuDashboard
                           onClick={() => handleDeleteClick(bid._id)}
-                          style={{ cursor: "pointer" }}
                         />
                       </td>
                     </tr>
-                  ))}
-            </tbody>
-          </table>
-          <div className="pagination-container">
-            {[...Array(Math.ceil(sortedBids.length / bidsPerPage))].map(
-              (_, index) => (
-                <button
-                  key={index + 1}
-                  className={`pagination-button ${currentPage === index + 1 ? "active" : ""}`}
-                  onClick={() => paginate(index + 1)}
-                >
-                  {index + 1}
-                </button>
-              )
-            )}
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="text-center py-4">
+                      No matching tenders found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
-          {/* <DashboardWizard /> */}
         </div>
         <Modal
           show={showModal}

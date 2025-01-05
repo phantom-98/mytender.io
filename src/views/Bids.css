@@ -1,193 +1,123 @@
-.status-dropdown {
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: #fff;
-    font-family: inherit;
-    font-weight: 600;
-    font-size: 0.9rem;
-    border: none;
-    cursor: pointer;
+.padded-container {
+    /* Adjusted to account for padding-left */
+    /* Assuming 40px top margin and 30px top padding */
+    flex: 1;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding: 15px;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Use auto instead of scroll to handle both overflow cases */
+}
+
+.table-wrapper {
     position: relative;
-    min-width: 120px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-.status-dropdown.ongoing {
-    background-color: orange;
-    color: white;
-}
-
-.status-dropdown.complete {
-    background-color: #262626;
-    color: white;
+    max-height: 100vh;
+    overflow-x: auto;
+    overflow-y: auto;
+    border: 1.5px solid #d9d1e0;
 }
 
 .bids-table {
     width: 100%;
-    table-layout: fixed;
-    margin: 0;
-    border-collapse: collapse;
-    border-spacing: 0;
-    overflow: hidden;
-    margin-bottom: 20px;
     min-width: 1200px;
-    border: 1.5px solid #d9d1e0;
-}
-
-.bids-table th:nth-child(1) {
-    width: 18%;
-}
-
-.bids-table th:nth-child(2) {
-    width: 10%;
-}
-
-.bids-table th:nth-child(3) {
-    width: 12%;
-    min-width: 140px;
-}
-
-.bids-table th:nth-child(4) {
-    width: 12%;
-}
-
-.bids-table th:nth-child(5) {
-    width: 10%;
-}
-
-.bids-table th:nth-child(6) {
-    width: 12%;
-}
-
-.bids-table th:nth-child(7) {
-    width: 12%;
-}
-
-.bids-table th:nth-child(8) {
-    width: 9%;
-}
-
-.bids-table th:nth-child(9) {
-    width: 5%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 0;
 }
 
 
-/* Delete */
+/* Header styles */
 
-.bids-table td {
-    white-space: nowrap;
-    overflow: hidden;
-    padding: 12px;
-    text-overflow: ellipsis;
-    border-bottom: 1.5px solid #ddd;
-    box-sizing: border-box;
-}
-
-
-/* Add left margin to the first column */
-
-.bids-table td:first-child,
-.bids-table th:first-child {
-    padding-left: 20px;
+.bids-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: white;
 }
 
 .bids-table th {
     background-color: white;
     font-weight: 600;
     color: black;
-    overflow: hidden;
-    padding: 12px;
-    text-overflow: ellipsis;
-    box-sizing: border-box;
-    border-bottom: 1.5px solid #d9d1e0;
     font-size: 18px;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1.5px solid #d9d1e0;
 }
 
 
-/* Specifically target the Action column to make it narrower */
+/* Cell styles */
+
+.bids-table td {
+    padding: 12px 16px;
+    border-bottom: 1.5px solid #ddd;
+    vertical-align: middle;
+}
+
+
+/* Column widths - consistent between th and td */
+
+.bids-table th:nth-child(1),
+.bids-table td:nth-child(1) {
+    width: 38%;
+}
+
+.bids-table th:nth-child(2),
+.bids-table td:nth-child(2) {
+    width: 15%;
+}
+
+.bids-table th:nth-child(3),
+.bids-table td:nth-child(3) {
+    width: 15%;
+}
+
+.bids-table th:nth-child(4),
+.bids-table td:nth-child(4) {
+    width: 15%;
+}
+
+.bids-table th:nth-child(5),
+.bids-table td:nth-child(5) {
+    width: 12%;
+}
 
 .bids-table th:last-child,
 .bids-table td:last-child {
-    width: 8%;
-    justify-content: center;
+    width: 5%;
+    text-align: center;
 }
 
-.bids-table tr:last-child td {
-    border-bottom: none;
+
+/* Text truncation */
+
+.truncate-wrapper {
+    width: 100%;
+    overflow: hidden;
 }
 
-.dropdown-menu-f {
-    z-index: 1050;
-    position: absolute;
-    will-change: transform;
+.truncate-text {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
-.sort-options select {
-    outline: none !important;
-    border: 1px solid #ccc;
-    /* Add a default border */
-    box-shadow: none !important;
-    transition: border-color 0.2s ease-in-out;
-}
 
-.sort-options select:focus,
-.sort-options select:active {
-    outline: none !important;
-    border-color: grey;
-    /* Change border color on focus */
-}
-
-.sort-options {
-    display: flex;
-    align-items: center;
-    font-family: "Manrope", sans-serif;
-    /* Ensure you have this font imported */
-}
-
-.sort-select-option {
-    font-family: "Manrope", sans-serif !important;
-    font-size: 0.8rem;
-    padding: 5px 10px;
-    box-shadow: none !important;
-}
-
-.pagination-container {
-    display: flex;
-    gap: 10px;
-}
-
-.pagination-button {
-    color: #fff;
-    background-color: #000;
-    border: 1px solid #000;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 8px;
-}
-
-.pagination-button:hover {
-    background-color: #333;
-}
-
-.pagination-button.active {
-    background-color: #333;
-}
-
-.small-modal {
-    transform: scale(0.8);
-}
+/* Sortable header styles */
 
 .sortable-header {
     cursor: pointer;
     user-select: none;
-    transition: background-color 0.2s;
-    padding-right: 20px;
+    position: relative;
 }
 
 .sortable-header svg {
     opacity: 0.5;
-    margin-left: 10px;
+    margin-left: 8px;
     vertical-align: middle;
 }

@@ -1,36 +1,45 @@
 /* SearchInput.css */
 
-.search-container {
-  position: relative;
-  max-width: 36rem;
-  width: 100%;
+.search-input-container {
+    /* Changed from search-container */
+    position: relative;
+    max-width: 40rem;
+    /* Increased from 50rem */
+    width: 100%;
 }
 
-.search-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
+.search-input-wrapper {
+    /* Changed from search-wrapper */
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .search-icon {
-  position: absolute;
-  left: 12px;
-  height: 24px;
-  width: 24px;
-  color: #535e65;
+    position: absolute;
+    left: 12px;
+    height: 24px;
+    width: 24px;
+    color: #535e65;
+    z-index: 1;
+    /* Added to ensure icon stays above input */
 }
 
 .search-input {
-  width: 100%;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  background-color: #ebecef;
-  padding: 8px 25px 8px 40px;
-  color: #535e65;
-  font-size: 16px;
-  font-weight: 700;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background-color: #ebecef;
+    padding: 8px 25px 8px 50px;
+    color: #535e65;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .search-input:focus {
-  outline: none;
+    outline: none;
+    border-color: #a3a8ad;
+    /* Added for better focus indication */
+    background-color: #f3f4f6;
+    /* Slightly lighter on focus */
 }

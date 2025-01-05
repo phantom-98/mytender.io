@@ -1,6 +1,9 @@
 import { Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
+import { Section } from "../views/BidWritingStateManagerView";
+
+type ValidStatus = "Not Started" | "In Progress" | "Completed";
 
 const StatusMenu = ({
   value,
@@ -11,6 +14,18 @@ const StatusMenu = ({
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
+  // Validate and normalize the status value
+  const normalizeStatus = (status: any): ValidStatus => {
+    const validStatuses: ValidStatus[] = [
+      "Not Started",
+      "In Progress",
+      "Completed"
+    ];
+    return validStatuses.includes(status) ? status : "Not Started";
+  };
+
+  const currentStatus = normalizeStatus(value);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -19,12 +34,12 @@ const StatusMenu = ({
     setAnchorEl(null);
   };
 
-  const handleSelect = (status: Section["status"]) => {
+  const handleSelect = (status: ValidStatus) => {
     onChange(status);
     handleClose();
   };
 
-  const getStatusColor = (status: Section["status"]) => {
+  const getStatusColor = (status: ValidStatus) => {
     switch (status) {
       case "Completed":
         return "status-complete";
@@ -41,11 +56,11 @@ const StatusMenu = ({
     <div>
       <Button
         onClick={handleClick}
-        className={` ${getStatusColor(value)} text-nowrap d-inline-block`}
+        className={`${getStatusColor(currentStatus)} text-nowrap d-inline-block`}
         aria-controls="simple-menu"
         aria-haspopup="true"
       >
-        {value}
+        {currentStatus}
       </Button>
       <Menu
         id="simple-menu"
@@ -54,10 +69,10 @@ const StatusMenu = ({
         onClose={handleClose}
         keepMounted
         PaperProps={{
-          elevation: 1, // Reduced elevation for lighter shadow
+          elevation: 1,
           style: {
             width: "120px",
-            boxShadow: "0 2px 5px rgba(0,0,0,0.1)" // Custom subtle shadow
+            boxShadow: "0 2px 5px rgba(0,0,0,0.1)"
           }
         }}
       >

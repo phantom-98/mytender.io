@@ -1,29 +1,33 @@
-// SearchInput.js
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "./SearchInput.css";
+interface SearchInputProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+}
 
-const SearchInput = () => {
+const SearchInput: React.FC<SearchInputProps> = ({
+  value,
+  onChange,
+  placeholder = "Search tenders..."
+}) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("SearchInput value changing to:", e.target.value);
+    onChange(e.target.value);
+  };
+
   return (
-    <div className="search-container">
-      <div className="search-wrapper">
-        <svg
-          className="search-icon"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
+    <div className="search-input-container">
+      <div className="search-input-wrapper">
+        <FontAwesomeIcon icon={faSearch} className="search-icon" />
         <input
           type="text"
-          placeholder="Search for any tenders..."
           className="search-input"
+          placeholder={placeholder}
+          value={value}
+          onChange={handleChange}
         />
       </div>
     </div>
