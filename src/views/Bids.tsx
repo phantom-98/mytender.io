@@ -22,6 +22,8 @@ import ViewToggle from "../buttons/ViewToggle.tsx";
 import StatusMenu from "../buttons/StatusMenu.tsx";
 import EllipsisMenuDashboard from "../buttons/EllipsisMenuDashboard.tsx";
 import withAuth from "../routes/withAuth.tsx";
+import BidStatusMenu from "../buttons/BidStatusMenu.tsx";
+import KanbanView from "./KanbanView.tsx";
 
 const Bids = () => {
   const [bids, setBids] = useState([]);
@@ -37,6 +39,13 @@ const Bids = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
+  const [viewType, setViewType] = useState("table"); // or 'kanban'
+
+  // Modify the ViewToggle button click handler
+  const handleViewChange = (view: "table" | "kanban") => {
+    setViewType(view);
+  };
+
   // Sorting bids based on the selected criteria
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "timestamp",
@@ -46,7 +55,7 @@ const Bids = () => {
   interface Bid {
     _id: string;
     bid_title: string;
-    status: "ongoing" | "complete";
+    status: "Identification" | "Capture Planning" | "First Review" | "Final Review" | "Submitted";
     timestamp?: string;
     submission_deadline?: string;
     client_name?: string;
@@ -431,84 +440,92 @@ const Bids = () => {
 
           <div className="mt-3 mb-4 proposal-header">
             <SearchInput value={searchTerm} onChange={setSearchTerm} />
-            <ViewToggle />
+            <ViewToggle value={viewType} onChange={handleViewChange}/>
           </div>
-          <div className="table-wrapper">
-            <table className="bids-table mt-1">
-              <thead>
-                <tr>
-                  {headers.map((header) => (
-                    <th
-                      key={header.key}
-                      onClick={() => requestSort(header.key)}
-                      className="sortable-header"
-                    >
-                      {header.label}
-                      {getSortIcon(header.key)}
-                    </th>
-                  ))}
-                  <th style={{ textAlign: "center", width: "5%" }}></th>
-                </tr>
-              </thead>
-              <tbody>
-                {loading ? (
-                  Array(13)
-                    .fill(0)
-                    .map((_, index) => <SkeletonRow key={index} />)
-                ) : currentBids.length > 0 ? (
-                  currentBids.map((bid, index) => (
-                    <tr key={index}>
-                      <td className="bid-title-cell">
-                        <div className="truncate-wrapper">
-                          <Link
-                            to="/bid-extractor"
-                            state={{ bid: bid, fromBidsTable: true }}
-                            onClick={() => navigateToChatbot(bid)}
-                            className="truncate-text"
-                          >
-                            {bid.bid_title}
-                          </Link>
-                        </div>
-                      </td>
-                      <td className="date-cell">
-                        {bid.timestamp
-                          ? new Date(bid.timestamp).toLocaleDateString()
-                          : ""}
-                      </td>
-                      <td className="value-cell">{bid.value}</td>
-                      <td className="date-cell">
-                        {bid.submission_deadline &&
-                        !isNaN(Date.parse(bid.submission_deadline))
-                          ? new Date(
-                              bid.submission_deadline
-                            ).toLocaleDateString()
-                          : ""}
-                      </td>
-                      <td className="status-cell">
-                        <StatusMenu
-                          value={bid.status}
-                          onChange={(value) => {
-                            updateBidStatus(bid._id, value);
-                          }}
-                        />
-                      </td>
-                      <td className="action-cell">
-                        <EllipsisMenuDashboard
-                          onClick={() => handleDeleteClick(bid._id)}
-                        />
+          {viewType === "table" ? (
+            <div className="table-wrapper">
+              <table className="bids-table mt-1">
+                <thead>
+                  <tr>
+                    {headers.map((header) => (
+                      <th
+                        key={header.key}
+                        onClick={() => requestSort(header.key)}
+                        className="sortable-header"
+                      >
+                        {header.label}
+                        {getSortIcon(header.key)}
+                      </th>
+                    ))}
+                    <th style={{ textAlign: "center", width: "5%" }}></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    Array(13)
+                      .fill(0)
+                      .map((_, index) => <SkeletonRow key={index} />)
+                  ) : currentBids.length > 0 ? (
+                    currentBids.map((bid, index) => (
+                      <tr key={index}>
+                        <td className="bid-title-cell">
+                          <div className="truncate-wrapper">
+                            <Link
+                              to="/bid-extractor"
+                              state={{ bid: bid, fromBidsTable: true }}
+                              onClick={() => navigateToChatbot(bid)}
+                              className="truncate-text"
+                            >
+                              {bid.bid_title}
+                            </Link>
+                          </div>
+                        </td>
+                        <td className="date-cell">
+                          {bid.timestamp
+                            ? new Date(bid.timestamp).toLocaleDateString()
+                            : ""}
+                        </td>
+                        <td className="value-cell">{bid.value}</td>
+                        <td className="date-cell">
+                          {bid.submission_deadline &&
+                          !isNaN(Date.parse(bid.submission_deadline))
+                            ? new Date(
+                                bid.submission_deadline
+                              ).toLocaleDateString()
+                            : ""}
+                        </td>
+                        <td className="status-cell">
+                          <BidStatusMenu
+                            value={bid.status}
+                            onChange={(value) => {
+                              updateBidStatus(bid._id, value);
+                            }}
+                          />
+                        </td>
+                        <td className="action-cell">
+                          <EllipsisMenuDashboard
+                            onClick={() => handleDeleteClick(bid._id)}
+                          />
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={6} className="text-center py-4">
+                        No matching tenders found
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={6} className="text-center py-4">
-                      No matching tenders found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <KanbanView
+              bids={currentBids}
+              updateBidStatus={updateBidStatus}
+              navigateToChatbot={navigateToChatbot}
+            />
+          )}
         </div>
         <Modal
           show={showModal}

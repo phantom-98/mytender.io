@@ -1,27 +1,33 @@
-// ViewToggle.js
-import React, { useState } from "react";
+import React from "react";
+import { ButtonGroup, Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTable, faColumns } from "@fortawesome/free-solid-svg-icons";
 import "./ViewToggle.css";
+interface ViewToggleProps {
+  value: string;
+  onChange: (view: "table" | "kanban") => void;
+}
 
-const ViewToggle = () => {
-  const [activeView, setActiveView] = useState('list');
-
+const ViewToggle: React.FC<ViewToggleProps> = ({ value, onChange }) => {
   return (
-    <div className="view-toggle">
-      <button 
-        className={`view-button ${activeView === 'list' ? 'active' : ''}`}
-        onClick={() => setActiveView('list')}
+    <ButtonGroup>
+      <Button
+        variant={value === "table" ? "primary" : "light"}
+        onClick={() => onChange("table")}
+        className="view-toggle-btn"
       >
-        <span className="list-icon">☰</span>
-        List
-      </button>
-      <button 
-        className={`view-button ${activeView === 'kanban' ? 'active' : ''}`}
-        onClick={() => setActiveView('kanban')}
+        <FontAwesomeIcon icon={faTable} className="me-2" />
+        Table
+      </Button>
+      <Button
+        variant={value === "kanban" ? "primary" : "light"}
+        onClick={() => onChange("kanban")}
+        className="view-toggle-btn"
       >
-        <span className="kanban-icon">⊞</span>
+        <FontAwesomeIcon icon={faColumns} className="me-2" />
         Kanban
-      </button>
-    </div>
+      </Button>
+    </ButtonGroup>
   );
 };
 
