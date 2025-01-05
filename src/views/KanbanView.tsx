@@ -1,6 +1,4 @@
-import React from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt, faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 import "./KanbanView.css";
@@ -24,32 +22,89 @@ const KanbanView: React.FC<KanbanViewProps> = ({
   updateBidStatus,
   navigateToChatbot
 }) => {
-  const getBidsForStatus = (status: string) => {
-    if (status === "Identification") {
-      // For Identification, include both matching bids and those with invalid statuses
-      return bids.filter(
-        (bid) => bid.status === status || !statusColumns.includes(bid.status)
-      );
+  const [localBids, setLocalBids] = useState(bids);
+  const draggedBidRef = useRef<any>(null);
+  const bidsRef = useRef(localBids);
+
+  useEffect(() => {
+    // Only update if we're not in the middle of a drag
+    if (!draggedBidRef.current) {
+      setLocalBids(bids);
+      bidsRef.current = bids;
     }
-    return bids.filter((bid) => bid.status === status);
+  }, [bids]);
+
+  const getBidsForStatus = useCallback(
+    (status: string) => {
+      if (status === "Identification") {
+        return bidsRef.current.filter(
+          (bid) => bid.status === status || !statusColumns.includes(bid.status)
+        );
+      }
+      return bidsRef.current.filter((bid) => bid.status === status);
+    },
+    [bidsRef.current]
+  );
+
+  const handleDragStart = (e: React.DragEvent, bid: any) => {
+    draggedBidRef.current = bid;
+    const ghost = e.currentTarget.cloneNode(true) as HTMLElement;
+    ghost.style.position = "absolute";
+    ghost.style.top = "-1000px";
+    document.body.appendChild(ghost);
+    e.dataTransfer.setDragImage(ghost, 0, 0);
+    setTimeout(() => document.body.removeChild(ghost), 0);
   };
 
-  const handleDragEnd = (result: any) => {
-    const { destination, source, draggableId } = result;
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.currentTarget.classList.add("drag-over");
+  };
 
-    if (!destination) return;
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.currentTarget.classList.remove("drag-over");
+  };
 
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
+  const handleDrop = async (e: React.DragEvent, newStatus: string) => {
+    e.preventDefault();
+    e.currentTarget.classList.remove("drag-over");
+
+    const draggedBid = draggedBidRef.current;
+    if (!draggedBid || draggedBid.status === newStatus) {
+      draggedBidRef.current = null;
       return;
     }
 
-    // Update the bid's status in the backend
-    const newStatus = destination.droppableId;
-    const bidId = draggableId;
-    updateBidStatus(bidId, newStatus);
+    // Update the ref immediately
+    bidsRef.current = bidsRef.current.map((bid) =>
+      bid._id === draggedBid._id
+        ? {
+            ...bid,
+            status: newStatus
+          }
+        : bid
+    );
+
+    // Update state after ref
+    setLocalBids(bidsRef.current);
+
+    try {
+      await updateBidStatus(draggedBid._id, newStatus);
+    } catch (error) {
+      console.error("Failed to update status:", error);
+      // Revert both ref and state on failure
+      bidsRef.current = bidsRef.current.map((bid) =>
+        bid._id === draggedBid._id
+          ? {
+              ...bid,
+              status: draggedBid.status
+            }
+          : bid
+      );
+      setLocalBids(bidsRef.current);
+    } finally {
+      draggedBidRef.current = null;
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -57,67 +112,66 @@ const KanbanView: React.FC<KanbanViewProps> = ({
     return new Date(dateString).toLocaleDateString();
   };
 
-  return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="kanban-container">
-        {statusColumns.map((status) => (
-          <div key={status} className="kanban-column">
-            <div className="kanban-column-header">
-              <h2>{status}</h2>
-              <span className="bid-count">
-                {getBidsForStatus(status).length}
-              </span>
+  const DraggableCard = ({ bid }: { bid: any }) => {
+    const [isDragging, setIsDragging] = useState(false);
+
+    return (
+      <div
+        draggable
+        className={`kanban-card ${isDragging ? "is-dragging" : ""}`}
+        onDragStart={(e) => {
+          handleDragStart(e, bid);
+          setIsDragging(true);
+        }}
+        onDragEnd={() => {
+          setIsDragging(false);
+          if (!draggedBidRef.current) {
+            bidsRef.current = bids;
+            setLocalBids(bids);
+          }
+        }}
+        onClick={() => !isDragging && navigateToChatbot(bid)}
+      >
+        <h3 className="bid-title">{bid.bid_title}</h3>
+        <div className="bid-details">
+          {bid.value && (
+            <div className="bid-detail">
+              <FontAwesomeIcon icon={faMoneyBill} />
+              <span>{bid.value}</span>
             </div>
-            <Droppable droppableId={status}>
-              {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="kanban-list"
-                >
-                  {getBidsForStatus(status).map((bid, index) => (
-                    <Draggable
-                      key={bid._id}
-                      draggableId={bid._id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className="kanban-card"
-                          onClick={() => navigateToChatbot(bid)}
-                        >
-                          <h3 className="bid-title">{bid.bid_title}</h3>
-                          <div className="bid-details">
-                            {bid.value && (
-                              <div className="bid-detail">
-                                <FontAwesomeIcon icon={faMoneyBill} />
-                                <span>{bid.value}</span>
-                              </div>
-                            )}
-                            {bid.submission_deadline && (
-                              <div className="bid-detail">
-                                <FontAwesomeIcon icon={faCalendarAlt} />
-                                <span>
-                                  {formatDate(bid.submission_deadline)}
-                                </span>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </div>
-        ))}
+          )}
+          {bid.submission_deadline && (
+            <div className="bid-detail">
+              <FontAwesomeIcon icon={faCalendarAlt} />
+              <span>{formatDate(bid.submission_deadline)}</span>
+            </div>
+          )}
+        </div>
       </div>
-    </DragDropContext>
+    );
+  };
+
+  return (
+    <div className="kanban-container">
+      {statusColumns.map((status) => (
+        <div key={status} className="kanban-column">
+          <div className="kanban-column-header">
+            <h2>{status}</h2>
+            <span className="bid-count">{getBidsForStatus(status).length}</span>
+          </div>
+          <div
+            className="kanban-list"
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={(e) => handleDrop(e, status)}
+          >
+            {getBidsForStatus(status).map((bid) => (
+              <DraggableCard key={bid._id} bid={bid} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
 

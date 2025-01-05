@@ -3,7 +3,6 @@
     gap: 1rem;
     padding: 1rem;
     height: 100vh;
-    /* Fixed height instead of min-height */
     overflow-x: auto;
 }
 
@@ -16,7 +15,7 @@
     display: flex;
     flex-direction: column;
     max-height: 100%;
-    /* Fill the container height */
+    text-overflow: ellipsis;
 }
 
 .kanban-column-header {
@@ -26,8 +25,8 @@
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 2px solid #e9ecef;
+    text-overflow: ellipsis;
     flex-shrink: 0;
-    /* Prevent header from shrinking */
 }
 
 .kanban-column-header h2 {
@@ -48,32 +47,13 @@
 .kanban-list {
     min-height: 100px;
     overflow-y: auto;
-    /* Enable vertical scrolling */
     flex-grow: 1;
-    /* Take up remaining space */
-    padding-right: 4px;
-    /* Space for scrollbar */
+    padding: 4px;
+    transition: background-color 0.2s ease;
 }
 
-
-/* Styling the scrollbar */
-
-.kanban-list::-webkit-scrollbar {
-    width: 8px;
-}
-
-.kanban-list::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-}
-
-.kanban-list::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 4px;
-}
-
-.kanban-list::-webkit-scrollbar-thumb:hover {
-    background: #bbb;
+.kanban-list.drag-over {
+    background-color: rgba(0, 0, 0, 0.02);
 }
 
 .kanban-card {
@@ -82,7 +62,9 @@
     padding: 1rem;
     margin-bottom: 0.75rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    cursor: pointer;
+    cursor: grab;
+    user-select: none;
+    text-overflow: ellipsis;
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -91,11 +73,17 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.kanban-card.is-dragging {
+    opacity: 0.5;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
 .bid-title {
     font-size: 1rem;
     font-weight: 500;
     margin: 0 0 0.5rem 0;
     color: #212529;
+    text-overflow: ellipsis;
 }
 
 .bid-details {
