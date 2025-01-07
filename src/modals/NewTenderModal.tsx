@@ -12,6 +12,8 @@ import { Box, LinearProgress, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import CustomDateInput from "../buttons/CustomDateInput";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
 interface NewTenderModalProps {
   show: boolean;
@@ -458,7 +460,7 @@ const NewTenderModal: React.FC<NewTenderModalProps> = ({
                 folderView={true}
               />
             </div>
-            <div className="d-flex justify-content-between mt-4">
+            <div className="d-flex justify-content-end mt-4">
               <Button onClick={handleNextStep} className="upload-button">
                 Next Step →
               </Button>
@@ -491,18 +493,9 @@ const NewTenderModal: React.FC<NewTenderModalProps> = ({
               </div>
             )}
 
-            <div className="d-flex justify-content-between mt-4">
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: "#F9A01B",
-                  border: "none",
-                  color: "white",
-                  padding: "8px 20px",
-                  borderRadius: "4px",
-                  fontWeight: "500"
-                }}
-              >
+            <div className="d-flex justify-content-end mt-4">
+              <Button type="submit" className="upload-button">
+                <FontAwesomeIcon icon={faFileCirclePlus} className="me-2" />
                 Create Tender
               </Button>
             </div>
