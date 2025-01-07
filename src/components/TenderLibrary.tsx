@@ -3,53 +3,14 @@ import { API_URL, HTTP_PREFIX } from "../helper/Constants";
 import axios from "axios";
 import withAuth from "../routes/withAuth";
 import { useAuthUser } from "react-auth-kit";
-import {
-  Button,
-  Col,
-  Row,
-  Card,
-  Modal,
-  FormControl,
-  InputGroup,
-  Spinner,
-  Table
-} from "react-bootstrap";
+import { Button, Col, Row, Card, Modal, Spinner, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrash,
-  faFileAlt,
-  faSearch,
-  faQuestionCircle,
-  faPlus,
-  faTimes,
-  faCloudUploadAlt,
-  faCheck,
-  faSpinner
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faFileAlt, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Menu, MenuItem } from "@mui/material";
 import { displayAlert } from "../helper/Alert.tsx";
 import InterrogateTenderModal from "../modals/InterrogateTenderModal.tsx";
 import posthog from "posthog-js";
 import UploadPDF from "../views/UploadPDF.tsx";
-
-const getFileMode = (fileType) => {
-  if (fileType === "application/pdf") {
-    return "pdf";
-  } else if (
-    fileType === "application/msword" ||
-    fileType ===
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  ) {
-    return "word";
-  } else if (
-    fileType === "application/vnd.ms-excel" ||
-    fileType ===
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  ) {
-    return "excel";
-  }
-  return null;
-};
 
 const TenderLibrary = ({ object_id }) => {
   const getAuth = useAuthUser();
@@ -57,8 +18,6 @@ const TenderLibrary = ({ object_id }) => {
   const tokenRef = useRef(auth?.token || "default");
 
   const [documents, setDocuments] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [modalContent, setModalContent] = useState("");
   const [currentFileName, setCurrentFileName] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 6;

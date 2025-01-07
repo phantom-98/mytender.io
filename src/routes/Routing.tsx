@@ -50,7 +50,6 @@ function Routing() {
         <Route path="/uploadtemplatetext" element={<UploadTemplateText />} />
         <Route path="/qlog" element={<Log />} />
         <Route path="/flog" element={<FLog />} />
-        <Route path="/bids" element={<Bids />} />
         <Route path="/library" element={<Library />} />
         <Route path="/howto" element={<HowTo />} />
         <Route path="/profile" element={<ProfilePage />} />
@@ -64,6 +63,7 @@ function Routing() {
           <Route path="/question-crafter" element={<QuestionCrafter />} />
           <Route path="/proposal" element={<Proposal />} />
           <Route path="/proposal-preview" element={<ProposalPreview />} />
+          <Route path="/bids" element={<Bids />} />
         </Route>
       </Routes>
     </div>

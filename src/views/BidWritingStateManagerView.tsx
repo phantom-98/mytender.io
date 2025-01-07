@@ -51,6 +51,7 @@ export interface SharedState {
   opportunity_information: string;
   compliance_requirements: string;
   questions: string;
+  value: string;
   client_name: string;
   bid_qualification_result: string;
   opportunity_owner: string;
@@ -80,6 +81,7 @@ const defaultState: BidContextType = {
     opportunity_information: "",
     compliance_requirements: "",
     questions: "",
+    value: "",
     client_name: "",
     bid_qualification_result: "",
     opportunity_owner: "",
@@ -195,6 +197,7 @@ const BidManagement: React.FC = () => {
         opportunity_information,
         bid_qualification_result,
         client_name,
+        value,
         opportunity_owner,
         submission_deadline,
         bid_manager,
@@ -226,6 +229,7 @@ const BidManagement: React.FC = () => {
       appendFormData("bid_title", bidInfo);
       appendFormData("status", "ongoing");
       appendFormData("contract_information", backgroundInfo);
+      appendFormData("value", value);
       appendFormData("compliance_requirements", compliance_requirements);
       appendFormData("opportunity_information", opportunity_information);
       appendFormData("client_name", client_name);
@@ -295,12 +299,17 @@ const BidManagement: React.FC = () => {
   useEffect(() => {
     // Skip if already saving
     if (isSavingRef.current) {
+      console.log("Skipping autosave - already saving");
       return;
     }
 
-    console.log("autosave triggered by:", {
-      outline: sharedState.outline,
-      lastUpdated: sharedState.lastUpdated
+    console.log("State change detected:", {
+      bidInfo: sharedState.bidInfo,
+      value: sharedState.value,
+      submission_deadline: sharedState.submission_deadline,
+      lastUpdated: sharedState.lastUpdated,
+      isSavingRef: isSavingRef.current,
+      canSave: canUserSave()
     });
 
     // Immediately save current state to localStorage
@@ -310,10 +319,12 @@ const BidManagement: React.FC = () => {
     };
 
     localStorage.setItem("bidState", JSON.stringify(stateToSave));
+    console.log("State saved to localStorage");
 
     // Clear any existing save timer
     if (typingTimeout) {
       clearTimeout(typingTimeout);
+      console.log("Cleared existing save timer");
     }
 
     // Set new timer for auto-save

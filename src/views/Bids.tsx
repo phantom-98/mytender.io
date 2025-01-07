@@ -19,11 +19,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Skeleton } from "@mui/material";
 import SearchInput from "../components/inputbars/SearchInput.tsx";
 import ViewToggle from "../buttons/ViewToggle.tsx";
-import StatusMenu from "../buttons/StatusMenu.tsx";
 import EllipsisMenuDashboard from "../buttons/EllipsisMenuDashboard.tsx";
 import withAuth from "../routes/withAuth.tsx";
 import BidStatusMenu from "../buttons/BidStatusMenu.tsx";
 import KanbanView from "./KanbanView.tsx";
+import NewTenderModal from "../modals/NewTenderModal.tsx";
 
 const Bids = () => {
   const [bids, setBids] = useState([]);
@@ -55,7 +55,12 @@ const Bids = () => {
   interface Bid {
     _id: string;
     bid_title: string;
-    status: "Identification" | "Capture Planning" | "First Review" | "Final Review" | "Submitted";
+    status:
+      | "Identification"
+      | "Capture Planning"
+      | "First Review"
+      | "Final Review"
+      | "Submitted";
     timestamp?: string;
     submission_deadline?: string;
     client_name?: string;
@@ -353,41 +358,6 @@ const Bids = () => {
     setBidName("");
   };
 
-  const handleOngoingSidebarLinkClick = () => {
-    handleGAEvent(
-      "Sidebar Navigation",
-      "Ongoing Link Click",
-      "ongoing link nav"
-    );
-  };
-
-  const handleModalSubmit = (e: ModalSubmitEvent): void => {
-    e.preventDefault();
-    if (!bidName) {
-      displayAlert("Bid name cannot be empty", "danger");
-      return;
-    }
-    if (bidName.length > 80) {
-      displayAlert("Bid name cannot exceed 80 characters", "danger");
-      return;
-    }
-    if (bids.some((bid: Bid) => bid.bid_title === bidName)) {
-      displayAlert("Bid name already exists", "danger");
-      return;
-    }
-
-    localStorage.removeItem("bidInfo");
-    localStorage.removeItem("backgroundInfo");
-    localStorage.removeItem("response");
-    localStorage.removeItem("inputText");
-    localStorage.removeItem("editorState");
-    localStorage.removeItem("messages");
-    localStorage.removeItem("bidState");
-
-    handleOngoingSidebarLinkClick();
-    navigate("/bid-extractor", { state: { bidName } });
-    setShowModal(false);
-  };
 
   const SkeletonRow = () => (
     <tr className="py-4">
@@ -440,7 +410,7 @@ const Bids = () => {
 
           <div className="mt-3 mb-4 proposal-header">
             <SearchInput value={searchTerm} onChange={setSearchTerm} />
-            <ViewToggle value={viewType} onChange={handleViewChange}/>
+            <ViewToggle value={viewType} onChange={handleViewChange} />
           </div>
           {viewType === "table" ? (
             <div className="table-wrapper">
@@ -462,7 +432,7 @@ const Bids = () => {
                 </thead>
                 <tbody>
                   {loading ? (
-                    Array(13)
+                    Array(14)
                       .fill(0)
                       .map((_, index) => <SkeletonRow key={index} />)
                   ) : currentBids.length > 0 ? (
@@ -527,37 +497,11 @@ const Bids = () => {
             />
           )}
         </div>
-        <Modal
+        <NewTenderModal
           show={showModal}
           onHide={handleModalClose}
-          className="custom-modal-newbid"
-        >
-          <Modal.Header className="px-4">
-            <Modal.Title>Enter Tender Name</Modal.Title>
-            <button className="close-button ms-auto" onClick={handleModalClose}>
-              ×
-            </button>
-          </Modal.Header>
-          <Modal.Body className="px-4 py-4" style={{ height: "14vh" }}>
-            <div className="content-scaler">
-              <Form onSubmit={handleModalSubmit}>
-                <div className="search-input-group">
-                  <Form.Control
-                    type="text"
-                    value={bidName}
-                    onChange={(e) => setBidName(e.target.value)}
-                    placeholder="Enter tender name"
-                    maxLength={80}
-                    className="form-control"
-                  />
-                  <Button type="submit" className="search-button">
-                    Submit
-                  </Button>
-                </div>
-              </Form>
-            </div>
-          </Modal.Body>
-        </Modal>
+          existingBids={bids}
+        />
 
         <Modal
           show={showDeleteModal}

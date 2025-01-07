@@ -1,31 +1,46 @@
 .custom-date-input {
-  position: relative;
-  display: inline-block;
-  width: 100%;
+    position: relative;
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
 }
 
-.custom-date-input .calendar-icon {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #6c757d;
-  z-index: 1;
+.custom-date-input .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .custom-date-input .date-input {
-  padding-right: 30px;
-  width: 100%;
-  cursor: pointer;
+    width: 100%;
+    padding-right: 35px;
+}
+
+.custom-date-input .calendar-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+}
+
+.custom-date-input .calendar-icon:hover {
+    color: #495057;
+}
+
+.custom-date-input .calendar-icon.disabled {
+    cursor: not-allowed;
+    color: #adb5bd;
 }
 
 .custom-date-input .hidden-date-input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
+    visibility: hidden;
+    position: fixed;
+    z-index: 50;
+}
+
+.custom-date-input .form-control:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
 }

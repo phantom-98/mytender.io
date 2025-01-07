@@ -1,0 +1,214 @@
+.steps-container {
+    padding: 0 !important;
+    background: #fff;
+    overflow: hidden;
+    border-bottom: 1px solid #eee;
+}
+
+.step-wrapper {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    height: 60px;
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+.step {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 35px;
+    background: #fff;
+    height: 100%;
+    flex: 1;
+    min-width: 180px;
+    max-width: 250px;
+    color: #757575;
+}
+
+.step:not(:last-child):after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -12px;
+    width: 44px;
+    height: 42px;
+    background: #fff;
+    transform: translateY(-50%) rotate(45deg);
+    border-top: 2px solid #e0e0e0;
+    border-right: 2px solid #e0e0e0;
+    z-index: 2;
+}
+
+.step:not(:last-child):before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 20px;
+    background: #fff;
+    z-index: 1;
+}
+
+.step-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.step .step-number {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #757575;
+    color: #757575;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.step.active {
+    color: black;
+    font-weight: 800 !important;
+}
+
+.step.active .step-number {
+    background: #f9a01b;
+    border-color: #f9a01b;
+    color: white;
+}
+
+.step-text {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 992px) {
+    .step {
+        min-width: 150px;
+        padding: 0 20px;
+    }
+    .step-text {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .step {
+        min-width: 80px;
+        padding: 0 15px;
+    }
+    .step-text {
+        display: none;
+    }
+    .step-number {
+        margin: 0 auto;
+    }
+}
+
+.custom-modal-width {
+    max-width: 90vw;
+    /* Limit maximum width */
+    width: 1000px;
+    /* Set a reasonable default width */
+    margin: 1.75rem auto;
+}
+
+@media (max-width: 992px) {
+    .step {
+        min-width: 150px;
+        /* Even smaller on mobile */
+        padding: 0 20px 0 20px;
+    }
+    .step-text {
+        font-size: 12px;
+        /* Smaller text on mobile */
+    }
+}
+
+.custom-modal-newbid .modal-content {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.next-step-button:hover {
+    background-color: #e89109 !important;
+}
+
+.next-step-button {
+    font-weight: 800;
+}
+
+.custom-modal-width {
+    min-width: 60vw;
+}
+
+
+/* If you want to adjust the positioning and width on different screen sizes */
+
+@media (max-width: 768px) {
+    .custom-modal-width {
+        min-width: 95vw;
+        margin: 1rem;
+    }
+}
+
+
+/* Ensure modal doesn't overflow on very small screens */
+
+@media (max-width: 576px) {
+    .custom-modal-width {
+        min-width: 100vw;
+        margin: 0;
+    }
+}
+
+.custom-modal-newbid h5,
+p {
+    font-weight: 800;
+}
+
+.modal-content-wrapper {
+    background-color: #f5f5f5;
+    min-height: 60vh;
+}
+
+.white-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.white-card .card-label {
+    font-weight: 800;
+}
+
+.form-control {
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #333;
+}
+
+.white-card p {
+    font-weight: 100 !important;
+}

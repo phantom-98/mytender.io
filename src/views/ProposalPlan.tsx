@@ -14,50 +14,15 @@ import {
 import { displayAlert } from "../helper/Alert.tsx";
 import "./ProposalPlan.css";
 import { Link, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import StatusMenu from "../buttons/StatusMenu.tsx";
 import OutlineInstructionsModal from "../modals/OutlineInstructionsModal.tsx";
 import SectionMenu from "../buttons/SectionMenu.tsx";
-import { MenuItem, Select, SelectChangeEvent, Skeleton } from "@mui/material";
 import posthog from "posthog-js";
 import { Button, Form, Row, Spinner } from "react-bootstrap";
 import ProposalSidepane from "../components/SlidingSidepane.tsx";
 import ReviewerDropdown from "../components/dropdowns/ReviewerDropdown.tsx";
 import QuestionTypeDropdown from "../components/dropdowns/QuestionTypeDropdown.tsx";
 import SectionControls from "../buttons/SectionControls.tsx";
-
-const EditableCell = ({
-  value: initialValue,
-  onChange,
-  type = "text"
-}: {
-  value: string | number | undefined;
-  onChange: (value: string) => void;
-  type?: string;
-}) => {
-  const [value, setValue] = useState(initialValue || "");
-
-  useEffect(() => {
-    setValue(initialValue || "");
-  }, [initialValue]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setValue(newValue);
-    onChange(newValue);
-  };
-
-  return (
-    <input
-      type={type}
-      value={value}
-      onChange={handleChange}
-      className="editable-cell"
-      placeholder="-"
-    />
-  );
-};
 
 const ProposalPlan = () => {
   const getAuth = useAuthUser();
@@ -152,6 +117,10 @@ const ProposalPlan = () => {
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, [contextMenu]);
+
+  useEffect(() => {
+    fetchOutline();
+  }, []);
 
   const handleAddSection = async () => {
     if (!object_id || selectedRowIndex === null) return;
