@@ -24,6 +24,7 @@ import ProposalPreview from "../views/ProposalPreview.tsx";
 import posthog from "posthog-js";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import ComplianceMatrix from "../views/ComplianceMatrix.tsx";
 
 function Routing() {
   const location = useLocation();
@@ -61,6 +62,7 @@ function Routing() {
           <Route path="/bid-extractor" element={<BidExtractor />} />
           <Route path="/proposal-planner" element={<ProposalPlan />} />
           <Route path="/question-crafter" element={<QuestionCrafter />} />
+          <Route path="/compliance-matrix" element={<ComplianceMatrix />} />
           <Route path="/proposal" element={<Proposal />} />
           <Route path="/proposal-preview" element={<ProposalPreview />} />
           <Route path="/bids" element={<Bids />} />
