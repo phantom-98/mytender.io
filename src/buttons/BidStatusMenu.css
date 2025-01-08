@@ -1,38 +1,53 @@
 .status-identification {
-    background-color: #FFA07A !important;
-    color: white !important;
-    border: none !important;
+    background-color: #FFE4DC !important;
+    /* Lighter salmon */
+    color: #D14D1F !important;
+    /* Darker salmon */
+    border: 1px solid #D14D1F !important;
 }
 
 .status-capture {
-    background-color: #87CEEB !important;
-    color: white !important;
-    border: none !important;
+    background-color: #E1F3FB !important;
+    /* Lighter sky blue */
+    color: #2B87AF !important;
+    /* Darker sky blue */
+    border: 1px solid #2B87AF !important;
 }
 
 .status-first-review {
-    background-color: #98FB98 !important;
-    color: white !important;
-    border: none !important;
+    background-color: #E6FFE6 !important;
+    /* Lighter green */
+    color: #2E8B2E !important;
+    /* Darker green */
+    border: 1px solid #2E8B2E !important;
 }
 
 .status-final-review {
-    background-color: #DDA0DD !important;
-    color: white !important;
-    border: none !important;
+    background-color: #F8E6F8 !important;
+    /* Lighter plum */
+    color: #8B488B !important;
+    /* Darker plum */
+    border: 1px solid #8B488B !important;
 }
 
 .status-submitted {
-    background-color: #3CB371 !important;
-    color: white !important;
-    border: none !important;
+    background-color: #E0F5E9 !important;
+    /* Lighter medium sea green */
+    color: #2A7F4F !important;
+    /* Darker medium sea green */
+    border: 1px solid #2A7F4F !important;
 }
 
 .styled-menu-item {
     font-size: 14px;
     padding: 8px 16px;
+    font-weight: 600 !important;
 }
 
 .styled-menu-item:hover {
     background-color: #f5f5f5;
+}
+
+.bid-status-menu {
+    font-weight: 700;
 }

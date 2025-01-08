@@ -1168,7 +1168,7 @@ const Library = () => {
                     New Subfolder
                   </MenuItem>
                 </Menu>
-                <div style={{ width: "100%", marginTop: "30px" }}>
+                <div style={{ width: "100%", marginTop: "20px" }}>
                   <table className="library-table">
                     <thead>
                       <tr>
@@ -1192,7 +1192,7 @@ const Library = () => {
                   <div
                     style={{
                       overflowY: "auto",
-                      maxHeight: "550px",
+                      maxHeight: "650px",
                       height: "100%",
                       width: "100%"
                     }}

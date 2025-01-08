@@ -493,7 +493,7 @@ const NewTenderModal: React.FC<NewTenderModalProps> = ({
               </div>
             )}
 
-            <div className="d-flex justify-content-end mt-4">
+            <div className="d-flex justify-content-end mt-3">
               <Button type="submit" className="upload-button">
                 <FontAwesomeIcon icon={faFileCirclePlus} className="me-2" />
                 Create Tender

@@ -105,6 +105,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
+    color: #000000;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-weight: 600;
+}
+
+.truncate-text:hover {
+    color: #666666;
 }
 
 

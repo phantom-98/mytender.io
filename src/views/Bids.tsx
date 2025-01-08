@@ -358,7 +358,6 @@ const Bids = () => {
     setBidName("");
   };
 
-
   const SkeletonRow = () => (
     <tr className="py-4">
       <td>

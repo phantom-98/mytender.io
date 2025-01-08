@@ -62,7 +62,7 @@ const BidStatusMenu = ({
     <div>
       <Button
         onClick={handleClick}
-        className={`${getStatusColor(currentStatus)} text-nowrap d-inline-block`}
+        className={`${getStatusColor(currentStatus)} text-nowrap d-inline-block bid-status-menu`}
         aria-controls="bid-status-menu"
         aria-haspopup="true"
       >
