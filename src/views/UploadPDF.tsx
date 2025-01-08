@@ -1,16 +1,11 @@
 import React, { useRef, useState } from "react";
-import { API_URL, HTTP_PREFIX } from "../helper/Constants";
 import axios from "axios";
-import withAuth from "../routes/withAuth";
 import { useAuthUser } from "react-auth-kit";
 import { displayAlert } from "../helper/Alert";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./UploadPDF.css";
 import {
-  faCloudUploadAlt,
-  faCheck,
-  faSpinner,
   faFileArrowUp,
   faFilePdf,
   faFile,
@@ -19,6 +14,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import posthog from "posthog-js";
 
+interface UploadResult {
+  error?: Error;
+  data?: any;
+}
 interface UploadPDFProps {
   folder?: string;
   bid_id?: string;
@@ -76,10 +75,13 @@ const UploadPDF: React.FC<UploadPDFProps> = ({
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
+    // Only handle drag events if not currently uploading
+    if (!isUploading) {
+      if (e.type === "dragenter" || e.type === "dragover") {
+        setDragActive(true);
+      } else if (e.type === "dragleave") {
+        setDragActive(false);
+      }
     }
   };
 
@@ -87,13 +89,19 @@ const UploadPDF: React.FC<UploadPDFProps> = ({
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+    // Only handle drop if not currently uploading
+    if (
+      !isUploading &&
+      e.dataTransfer.files &&
+      e.dataTransfer.files.length > 0
+    ) {
       handleFiles(Array.from(e.dataTransfer.files));
     }
   };
 
   const handleFileSelect = (e) => {
-    if (e.target.files && e.target.files.length > 0) {
+    // Only handle file selection if not currently uploading
+    if (!isUploading && e.target.files && e.target.files.length > 0) {
       handleFiles(Array.from(e.target.files));
     }
   };
@@ -212,8 +220,12 @@ const UploadPDF: React.FC<UploadPDFProps> = ({
 
     try {
       const uploadPromises = selectedFiles.map((file) => uploadFile(file));
-      const results = await Promise.all(
-        uploadPromises.map((p) => p.catch((error) => ({ error })))
+      const results: UploadResult[] = await Promise.all(
+        uploadPromises.map((p) =>
+          p
+            .then((data) => ({ data }))
+            .catch((error) => ({ error: error as Error }))
+        )
       );
 
       const successCount = results.filter((result) => !result.error).length;
@@ -301,19 +313,22 @@ const UploadPDF: React.FC<UploadPDFProps> = ({
       <p className="description-text">{descriptionText}</p>
 
       <div
-        className={`drop-zone ${dragActive ? "active" : ""}`}
+        className={`drop-zone ${dragActive ? "active" : ""} ${
+          isUploading ? "disabled" : ""
+        }`}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
-        onClick={() => fileInputRef.current.click()}
+        onClick={() => !isUploading && fileInputRef.current.click()}
         style={{
           border: "2px dashed #cccccc",
           borderRadius: "4px",
           padding: "30px",
           textAlign: "center",
-          cursor: "pointer",
+          cursor: isUploading ? "not-allowed" : "pointer",
           backgroundColor: dragActive ? "#f0f0f0" : "white",
+          opacity: isUploading ? 0.6 : 1,
           transition: "all 0.3s ease"
         }}
       >
@@ -325,12 +340,17 @@ const UploadPDF: React.FC<UploadPDFProps> = ({
             onChange={handleFileSelect}
             className="file-input"
             multiple
+            disabled={isUploading}
           />
           <div className="upload-icon-wrapper">
             <div className="circle-background"></div>
             <FontAwesomeIcon icon={faFileArrowUp} className="upload-icon" />
           </div>
-          <div className="upload-text">Click to Upload or drag and drop</div>
+          <div className="upload-text">
+            {isUploading
+              ? "Upload in progress..."
+              : "Click to Upload or drag and drop"}
+          </div>
           <div className="upload-subtext">Maximum file size 50 MB</div>
         </div>
       </div>
