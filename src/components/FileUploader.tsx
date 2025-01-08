@@ -112,7 +112,7 @@ const FileUploader = ({
         <input
           type="file"
           onChange={handleFileSelect}
-          accept=".pdf,.doc,.docx"
+          accept=".pdf,.docx"
           id="file-upload"
         />
         <label htmlFor="file-upload" className="upload-label">
