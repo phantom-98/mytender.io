@@ -2,29 +2,27 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./SidebarSmall.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import sidebarIcon from "../resources/images/mytender.io_badge.png"; // Add this at the top with other imports
+import sidebarIcon from "../resources/images/mytender.io_badge.png";
 
+// Change from 'free-solid-svg-icons' to 'free-regular-svg-icons'
 import {
-  faBookOpen,
-  faLayerGroup,
-  faReply, // Icon for comments or responses
-  faComments,
-  faCircleQuestion,
-  faUser,
-  faFileWord,
-  faGraduationCap
-} from "@fortawesome/free-solid-svg-icons";
-// Import the image import sidebarIcon from '../resources/images/mytender.io_badge.png';
+  faAddressBook as farBookOpen,
+  faComments as farComments,
+  faCircleQuestion as farCircleQuestion,
+  faUser as farUser,
+  faFileWord as farFileWord,
+
+} from "@fortawesome/free-regular-svg-icons";
+import { faGraduationCap, faLayerGroup } from "@fortawesome/free-solid-svg-icons";
 
 // Define interface for lastActiveBid
 interface LastActiveBid {
   _id: string;
   bid_title: string;
   status: string;
-  [key: string]: any; // for any additional properties
+  [key: string]: any;
 }
 
-// Define custom event type
 interface BidUpdateEvent extends Event {
   detail: LastActiveBid;
 }
@@ -32,9 +30,7 @@ interface BidUpdateEvent extends Event {
 const SideBarSmall = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [lastActiveBid, setLastActiveBid] = useState<LastActiveBid | null>(
-    null
-  );
+  const [lastActiveBid, setLastActiveBid] = useState<LastActiveBid | null>(null);
 
   const isActive = (path: string): boolean => location.pathname === path;
 
@@ -53,18 +49,14 @@ const SideBarSmall = () => {
     window.addEventListener("bidUpdated", handleBidUpdate as EventListener);
 
     return () => {
-      window.removeEventListener(
-        "bidUpdated",
-        handleBidUpdate as EventListener
-      );
+      window.removeEventListener("bidUpdated", handleBidUpdate as EventListener);
     };
   }, []);
 
   const handleDashboardClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     if (lastActiveBid) {
-      const lastActiveTab =
-        localStorage.getItem("lastActiveTab") || "/bid-extractor";
+      const lastActiveTab = localStorage.getItem("lastActiveTab") || "/bid-extractor";
       navigate(lastActiveTab, {
         state: { bid: lastActiveBid, fromBidsTable: true }
       });
@@ -75,8 +67,7 @@ const SideBarSmall = () => {
 
   const handleWordAddInClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    const url =
-      "https://appsource.microsoft.com/en-us/product/office/WA200007690?src=office&corrid=bd0c24c3-6022-e897-73ad-0dc9bdf3558b&omexanonuid=&referralurl=";
+    const url = "https://appsource.microsoft.com/en-us/product/office/WA200007690?src=office&corrid=bd0c24c3-6022-e897-73ad-0dc9bdf3558b&omexanonuid=&referralurl=";
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
@@ -101,7 +92,7 @@ const SideBarSmall = () => {
           to="/chatResponse"
           className={`sidebarsmalllink ${isActive("/chatResponse") ? "sidebarsmalllink-active" : ""}`}
         >
-          <FontAwesomeIcon icon={faComments} />
+          <FontAwesomeIcon icon={farComments} />
           <span id="welcome">Quick Question</span>
         </Link>
 
@@ -109,7 +100,7 @@ const SideBarSmall = () => {
           to="/question-answer"
           className={`sidebarsmalllink ${isActive("/question-answer") ? "sidebarsmalllink-active" : ""}`}
         >
-          <FontAwesomeIcon icon={faCircleQuestion} />
+          <FontAwesomeIcon icon={farCircleQuestion} />
           <span>Q&A Generator</span>
         </Link>
 
@@ -118,7 +109,7 @@ const SideBarSmall = () => {
           className="sidebarsmalllink"
           onClick={handleWordAddInClick}
         >
-          <FontAwesomeIcon icon={faFileWord} />
+          <FontAwesomeIcon icon={farFileWord} />
           <span>Wordpane</span>
         </Link>
       </div>
@@ -128,34 +119,27 @@ const SideBarSmall = () => {
           to="/library"
           className={`bordered-sidebar-link sidebarsmalllink ${isActive("/library") ? "sidebarsmalllink-active" : ""}`}
         >
-          <FontAwesomeIcon icon={faBookOpen} />
+          <FontAwesomeIcon icon={farBookOpen} />
           <span id="library-title">Content Library</span>
         </Link>
 
         <Link
           to="https://app.storylane.io/demo/tui6kl0bnkrw?embed=inline"
           className="sidebarsmalllink"
-          target="_blank" // Opens in new tab
-          rel="noopener noreferrer" // Security best practice for external links
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <FontAwesomeIcon icon={faGraduationCap} />{" "}
-          {/* Academic cap icon - perfect for tutorials */}
+          <FontAwesomeIcon icon={faGraduationCap} />
           <span>How To</span>
         </Link>
+        
         <Link
           to="/profile"
           className={`sidebarsmalllink ${isActive("/profile") ? "sidebarsmalllink-active" : ""}`}
         >
-          <FontAwesomeIcon icon={faUser} />
+          <FontAwesomeIcon icon={farUser} />
           <span>Profile</span>
         </Link>
-        {/* <Link
-          to="/logout"
-          className={`sidebarsmalllink ${isActive("/logout") ? "sidebarsmalllink-active" : ""}`}
-        >
-          <FontAwesomeIcon icon={faReply} />
-          <span>Logout</span>
-        </Link> */}
       </div>
     </div>
   );

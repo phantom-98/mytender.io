@@ -267,9 +267,8 @@ const TenderLibrary = ({ object_id }) => {
         </td>
 
         <td className="timestamp-column">
-          {doc.upload_date ? new Date(doc.upload_date).toLocaleString() : "N/A"}
-        </td>
-
+  {doc.upload_date ? new Date(doc.upload_date).toLocaleDateString('en-GB') : "N/A"}
+</td>
         <td className="actions-column">
           <FontAwesomeIcon
             icon={faTrash}

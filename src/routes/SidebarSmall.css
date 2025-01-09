@@ -26,8 +26,8 @@
 .sidebarsmall a {
   justify-content: start;
   /* Align items horizontally at the start */
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding-top: 14px;
+  padding-bottom: 14px;
   /* Top and bottom padding only */
   text-decoration: none;
   color: #535e65;
@@ -40,7 +40,7 @@
 
 .sidebarsmall a span {
   font-size: 17px;
-  font-weight: 550 !important;
+  font-weight: 700 !important;
   /* Reduce text size */
 }
 
@@ -58,8 +58,13 @@
   /* Grey background on hover */
 }
 
+.sidebarsmall a.sidebarsmalllink-active {
+  background-color: #ffeedf;
+  color: #535e65;
+}
+
 .sidebarsmall a svg {
-  margin: 0 10px 0 0;
+  margin: 0 20px 0 0;
   margin-left: 15px;
   /* Add margin to the right of SVG to create a gap */
   width: 26px;
@@ -110,7 +115,7 @@
 .sidebar-header span {
   font-family: "Poppins", sans-serif;
   font-size: 25px;
-  font-weight: 600;
+  font-weight: 700;
   color: black;
 }
 

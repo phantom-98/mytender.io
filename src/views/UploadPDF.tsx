@@ -336,7 +336,7 @@ const UploadPDF: React.FC<UploadPDFProps> = ({
           <input
             ref={fileInputRef}
             type="file"
-            accept=".pdf,.doc,.docx,.xls,.xlsx"
+            accept=".pdf,.docx,.xls,.xlsx"
             onChange={handleFileSelect}
             className="file-input"
             multiple

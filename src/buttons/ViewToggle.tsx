@@ -10,7 +10,7 @@ interface ViewToggleProps {
 
 const ViewToggle: React.FC<ViewToggleProps> = ({ value, onChange }) => {
   return (
-    <ButtonGroup>
+    <ButtonGroup className="viewtoggle">
       <Button
         variant={value === "table" ? "primary" : "light"}
         onClick={() => onChange("table")}
