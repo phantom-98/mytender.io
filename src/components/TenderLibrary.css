@@ -1,0 +1,65 @@
+.tender-library-table {
+    width: 100%;
+    table-layout: fixed;
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.tender-library-table th {
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 15px;
+    text-overflow: ellipsis;
+    font-weight: 700 !important;
+    background-color: white;
+    color: black;
+}
+
+.tender-library-table thead {
+    border: 1.5px solid #ddd;
+}
+
+.tender-library-table td {
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 15px;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid #ddd;
+}
+
+
+/* Column width specifications */
+
+.tender-library-table th.filename-column,
+.tender-library-table td.filename-column {
+    width: 60%;
+}
+
+.tender-library-table th.timestamp-column,
+.tender-library-table td.timestamp-column {
+    width: 10%;
+}
+
+.tender-library-table th.actions-column,
+.tender-library-table td.actions-column {
+    width: 5%;
+    text-align: center;
+}
+
+
+/* Add left margin to the first column */
+
+.tender-library-table td:first-child,
+.tender-library-table th:first-child {
+    padding-left: 16px;
+}
+
+.tender-library-table tr:last-child td {
+    border-bottom: none;
+}
