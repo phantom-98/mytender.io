@@ -17,7 +17,6 @@
  *
 */
 
-
 /**
 * This is a variable font
 * You can controll variable axes as shown below:
@@ -30,9 +29,9 @@
 */
 
 @font-face {
-    font-family: "Manrope";
-    src: url("../fonts/Manrope-Variable.ttf") format("truetype");
-    font-weight: 200 700;
-    font-display: swap;
-    font-style: normal;
+  font-family: "Manrope";
+  src: url("../fonts/Manrope-VariableFont_wght.ttf") format("truetype");
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
 }
