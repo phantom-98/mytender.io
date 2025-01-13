@@ -122,7 +122,7 @@
 
 .lib-title {
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 800;
 }
 
 .lib-custom-card .card-body {
@@ -327,19 +327,19 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 125vw;
     height: 125vh;
     background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 20;
+    z-index: 999;
 }
 
 .pdf-viewer-modal-content {
     position: relative;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1300px;
     background: white;
     border-radius: 8px;
     overflow: hidden;

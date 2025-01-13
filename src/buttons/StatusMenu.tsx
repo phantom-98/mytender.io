@@ -56,7 +56,7 @@ const StatusMenu = ({
     <div>
       <Button
         onClick={handleClick}
-        className={`${getStatusColor(currentStatus)} text-nowrap d-inline-block`}
+        className={`${getStatusColor(currentStatus)} text-nowrap d-inline-block status-menu-button`}
         aria-controls="simple-menu"
         aria-haspopup="true"
       >

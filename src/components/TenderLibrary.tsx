@@ -5,7 +5,14 @@ import withAuth from "../routes/withAuth";
 import { useAuthUser } from "react-auth-kit";
 import { Button, Col, Row, Card, Modal, Spinner, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faFileAlt, faPlus, faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faFileAlt,
+  faPlus,
+  faSort,
+  faSortUp,
+  faSortDown
+} from "@fortawesome/free-solid-svg-icons";
 import { Menu, MenuItem } from "@mui/material";
 import { displayAlert } from "../helper/Alert.tsx";
 import InterrogateTenderModal from "../modals/InterrogateTenderModal.tsx";
@@ -235,6 +242,7 @@ const TenderLibrary = ({ object_id }) => {
                 <p
                   style={{
                     fontSize: "18px",
+                    fontWeight: "500",
                     lineHeight: "1.6",
                     textAlign: "center",
                     margin: 0,
@@ -267,8 +275,10 @@ const TenderLibrary = ({ object_id }) => {
         </td>
 
         <td className="timestamp-column">
-  {doc.upload_date ? new Date(doc.upload_date).toLocaleDateString('en-GB') : "N/A"}
-</td>
+          {doc.upload_date
+            ? new Date(doc.upload_date).toLocaleDateString("en-GB")
+            : "N/A"}
+        </td>
         <td className="actions-column">
           <FontAwesomeIcon
             icon={faTrash}
@@ -373,7 +383,7 @@ const TenderLibrary = ({ object_id }) => {
     <>
       <Row>
         <Col md={12}>
-          <Card className="mb-2">
+          <Card className="mb-2 p-2">
             <Card.Body className="tenderlibrary-card-body-content">
               <div className="library-card-content-wrapper">
                 <div className="header-row mt-2" id="tender-library">
@@ -538,4 +548,4 @@ const TenderLibrary = ({ object_id }) => {
   );
 };
 
-export default withAuth(TenderLibrary);
+export default TenderLibrary;

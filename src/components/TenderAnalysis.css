@@ -1,0 +1,146 @@
+/* Proposal.css */
+
+.proposal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 180px;
+    width: 100%;
+}
+
+.dropdown-container {
+    display: flex;
+    align-items: center;
+}
+
+.proposal-title {
+    margin: 0;
+    font-size: 22px;
+}
+
+.proposal-container {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid #ced4da;
+    margin-top: 0;
+    padding: 0rem;
+    justify-content: center;
+    overflow-y: scroll;
+    padding: 1%;
+    height: 800px;
+    margin-bottom: 15px;
+    background-color: white;
+}
+
+.tabs-container {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 0 !important;
+}
+
+.tab {
+    padding: 8px 24px;
+    background: #ffffff;
+    border: none;
+    margin: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: #333;
+    font-weight: 600;
+    border-radius: 0 !important;
+    font-size: 15px;
+}
+
+
+/* Target all tabs except the last one */
+
+.tab:not(:last-of-type) {
+    border-right: none;
+}
+
+
+/* Ensure the last tab (not the add button) has a right border */
+
+.tab:last-of-type {
+    border-right: 2px solid #ccc;
+}
+
+.tab.active {
+    background: #FFE4C4;
+    /* Light orange */
+    font-weight: bold;
+}
+
+.tab-content {
+    display: flex;
+    align-items: center;
+}
+
+.rename-icon {
+    margin-left: 5px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.tab:hover .rename-icon {
+    opacity: 1;
+    transition: ease-in 0.1s;
+}
+
+.doc-name {
+    margin-right: 5px;
+}
+
+.close-tab {
+    margin-left: 10px !important;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.close-tab:hover {
+    color: black;
+}
+
+.save-button {
+    background-color: green;
+    transition: background-color 0.3s ease;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    cursor: pointer;
+    font-weight: 550;
+    font-size: 0.9rem;
+    outline: none !important;
+    /* Ensure no focus outline */
+    box-shadow: none !important;
+}
+
+.save-button:hover {
+    background-color: #019119;
+}
+
+.save-button:disabled,
+.save-button.btn-disabled {
+    background-color: green !important;
+    /* Black background when disabled */
+    color: white !important;
+    cursor: not-allowed;
+}
+
+.save-button:hover:not(:disabled) {
+    background-color: green;
+}
+
+.save-button:active:not(:disabled) {
+    background-color: green;
+}
+
+.save-button:focus,
+.save-button:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: green;
+    /* Ensures it doesn't flash blue */
+}

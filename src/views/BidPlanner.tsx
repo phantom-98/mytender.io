@@ -6,29 +6,16 @@ import { useAuthUser } from "react-auth-kit";
 import SideBarSmall from "../routes/SidebarSmall.tsx";
 import { useLocation } from "react-router-dom";
 import {
-  Button,
-  Card,
   Col,
   Row,
-  Spinner,
-  OverlayTrigger,
-  Tooltip
+
 } from "react-bootstrap";
 import BidNavbar from "../routes/BidNavbar.tsx";
 import "./BidPlanner.css";
 import { BidContext } from "./BidWritingStateManagerView.tsx";
 import { displayAlert } from "../helper/Alert";
-import { FormControl } from "@mui/material";
-import ContributorModal from "../modals/ContributorModal.tsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faScrewdriverWrench } from "@fortawesome/free-solid-svg-icons";
 import TenderLibrary from "../components/TenderLibrary.tsx";
-import CustomDateInput from "../buttons/CustomDateInput.tsx";
-
-import {
-  StyledSelect,
-  StyledMenuItem
-} from "../components/StyledMuiComponents";
+import TenderAnalysis from "../components/TenderAnalysis.tsx";
 
 const BidPlanner = () => {
   const getAuth = useAuthUser();
@@ -307,11 +294,15 @@ const BidPlanner = () => {
             initialBidName={initialBidName}
           />
           <div>
-            <Row className="mb-0">
+            <Row className="mt-4">
               <Col md={12}>
                 <TenderLibrary key={object_id} object_id={object_id} />
               </Col>
             </Row>
+            <div className="mt-4">
+            <TenderAnalysis canUserEdit={canUserEdit}  />
+            </div>
+           
           </div>
         </div>
       </div>
