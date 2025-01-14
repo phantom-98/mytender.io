@@ -294,7 +294,7 @@ const Library = () => {
       );
 
       const filesWithIds = response.data.map((item) => ({
-        filename: item.meta,
+        filename: item.filename,
         unique_id: item.unique_id,
         isFolder: false
       }));
@@ -716,6 +716,7 @@ const Library = () => {
   // }, [activeFolder, folderContents, availableCollections, rowsPerPage]);
 
   const formatDisplayName = (name) => {
+    if (typeof name !== "string") return "";
     return name.replace(/_/g, " ");
   };
 
