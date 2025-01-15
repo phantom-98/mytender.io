@@ -156,6 +156,8 @@ const Library = () => {
   const [folderStructure, setFolderStructure] = useState({});
   const [expandedFolders, setExpandedFolders] = useState({});
 
+  const [movingFiles, setMovingFiles] = useState<{[key: string]: boolean}>({});
+
   const [showPdfViewerModal, setShowPdfViewerModal] = useState(false);
   const [pdfUrl, setPdfUrl] = useState("");
 
@@ -869,6 +871,36 @@ const Library = () => {
                     filename: filename
                   });
                   setShowDeleteFileModal(true);
+                }}
+                availableFolders={availableCollections}
+                currentFolder={activeFolder}
+                isMoving={movingFiles[unique_id]}
+                onMove={async (newFolder) => {
+                  try {
+                    setMovingFiles((prev) => ({ ...prev, [unique_id]: true }));
+                    const formData = new FormData();
+                    formData.append("unique_id", unique_id);
+                    formData.append("new_folder", newFolder);
+
+                    await axios.post(
+                      `http${HTTP_PREFIX}://${API_URL}/move_file`,
+                      formData,
+                      {
+                        headers: {
+                          Authorization: `Bearer ${tokenRef.current}`,
+                          "Content-Type": "multipart/form-data"
+                        }
+                      }
+                    );
+
+                    await fetchFolderContents(activeFolder);
+                    displayAlert("File moved successfully", "success");
+                  } catch (error) {
+                    console.error("Error moving file:", error);
+                    displayAlert("Error moving file", "danger");
+                  } finally {
+                    setMovingFiles((prev) => ({ ...prev, [unique_id]: false }));
+                  }
                 }}
               />
             )}
