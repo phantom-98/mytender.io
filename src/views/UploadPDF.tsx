@@ -332,24 +332,58 @@ const UploadPDF: React.FC<UploadPDFProps> = ({
           transition: "all 0.3s ease"
         }}
       >
-        <div className="upload-container">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".pdf,.docx,.xls,.xlsx"
-            onChange={handleFileSelect}
-            className="file-input"
-            multiple
-            disabled={isUploading}
-          />
-          <div className="upload-icon-wrapper">
-            <div className="circle-background"></div>
-            <FontAwesomeIcon icon={faFileArrowUp} className="upload-icon" />
-          </div>
-          <div className="upload-text">
-            {isUploading
-              ? "Upload in progress..."
-              : "Click to Upload or drag and drop"}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".pdf,.docx,.xls,.xlsx"
+          onChange={handleFileSelect}
+          style={{ display: "none" }}
+          multiple
+        />
+        <FontAwesomeIcon
+          icon={faCloudUploadAlt}
+          size="3x"
+          style={{ marginBottom: "10px", color: "#ff7f50" }}
+        />
+        <p>
+          Drag and drop your PDF, Word, or Excel documents here or click to
+          select files
+        </p>
+
+        {selectedFiles.length > 0 && (
+          <div
+            style={{ textAlign: "center", maxWidth: "400px", margin: "0 auto" }}
+          >
+            <p>Selected files:</p>
+            <ul style={{ listStyleType: "none", padding: 0 }}>
+              {selectedFiles.map((file, index) => (
+                <li
+                  key={index}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "5px",
+                    justifyContent: "center"
+                  }}
+                >
+                  <span style={{ marginRight: "10px" }}>
+                    {file.name} ({getFileMode(file.type)})
+                  </span>
+                  {isUploading && !uploadedFiles[file.name] ? (
+                    <FontAwesomeIcon
+                      icon={faSpinner}
+                      spin
+                      style={{ color: "#ff7f50" }}
+                    />
+                  ) : uploadedFiles[file.name] ? (
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      style={{ color: "green" }}
+                    />
+                  ) : null}
+                </li>
+              ))}
+            </ul>
           </div>
           <div className="upload-subtext">Maximum file size 50 MB</div>
         </div>
