@@ -1,0 +1,119 @@
+/* UploadPDF.css */
+
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.upload-icon-wrapper {
+    position: relative;
+    margin-bottom: 10px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle-background {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 127, 80, 0.2);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.upload-icon {
+    color: #ff7f50;
+    position: relative;
+    font-size: 24px !important;
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.upload-text {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 15px;
+}
+
+.upload-subtext {
+    font-size: 14px;
+    color: #999;
+}
+
+.file-input {
+    display: none;
+}
+
+.selected-files {
+    width: 100%;
+    margin-top: 20px;
+    padding: 0;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 13px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #ddd;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin-right: 15px;
+}
+
+.file-icon {
+    margin-right: 12px;
+    color: #333;
+    font-size: 20px;
+}
+
+.file-name {
+    flex: 1;
+    color: #333;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 15px;
+    max-width: 280px;
+}
+
+.progress-container {
+    flex: 1;
+    height: 6px;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ff7f50 0%, #ff9f7f 100%);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    min-width: 45px;
+    text-align: right;
+    margin-left: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+.description-text {
+    font-weight: 500;
+}

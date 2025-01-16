@@ -1,36 +1,43 @@
 import React, { useRef, useState } from "react";
-import { API_URL, HTTP_PREFIX } from "../helper/Constants";
 import axios from "axios";
-import withAuth from "../routes/withAuth";
 import { useAuthUser } from "react-auth-kit";
 import { displayAlert } from "../helper/Alert";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./UploadPDF.css";
 import {
-  faCloudUploadAlt,
-  faCheck,
-  faSpinner
+  faFileArrowUp,
+  faFilePdf,
+  faFile,
+  faFileExcel,
+  faFileWord
 } from "@fortawesome/free-solid-svg-icons";
 import posthog from "posthog-js";
 
+interface UploadResult {
+  error?: Error;
+  data?: any;
+}
 interface UploadPDFProps {
   folder?: string;
   bid_id?: string;
-  get_collections: () => void;
+  get_collections?: () => void;
   onClose?: () => void;
+  onUploadComplete?: (files: File[]) => void;
   apiUrl: string;
   descriptionText: string;
 }
 
-interface UploadedFiles {
-  [key: string]: boolean;
+interface UploadProgress {
+  [key: string]: number;
 }
 
-const UploadPDFComponent: React.FC<UploadPDFProps> = ({
+const UploadPDF: React.FC<UploadPDFProps> = ({
   folder,
   bid_id,
   get_collections,
   onClose,
+  onUploadComplete,
   apiUrl,
   descriptionText
 }) => {
@@ -43,6 +50,8 @@ const UploadPDFComponent: React.FC<UploadPDFProps> = ({
   const [uploadedFiles, setUploadedFiles] = useState({});
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef(null);
+
+  const [uploadProgress, setUploadProgress] = useState<UploadProgress>({});
 
   const getFileMode = (fileType) => {
     if (fileType === "application/pdf") {
@@ -66,10 +75,13 @@ const UploadPDFComponent: React.FC<UploadPDFProps> = ({
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
+    // Only handle drag events if not currently uploading
+    if (!isUploading) {
+      if (e.type === "dragenter" || e.type === "dragover") {
+        setDragActive(true);
+      } else if (e.type === "dragleave") {
+        setDragActive(false);
+      }
     }
   };
 
@@ -77,13 +89,19 @@ const UploadPDFComponent: React.FC<UploadPDFProps> = ({
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+    // Only handle drop if not currently uploading
+    if (
+      !isUploading &&
+      e.dataTransfer.files &&
+      e.dataTransfer.files.length > 0
+    ) {
       handleFiles(Array.from(e.dataTransfer.files));
     }
   };
 
   const handleFileSelect = (e) => {
-    if (e.target.files && e.target.files.length > 0) {
+    // Only handle file selection if not currently uploading
+    if (!isUploading && e.target.files && e.target.files.length > 0) {
       handleFiles(Array.from(e.target.files));
     }
   };
@@ -110,7 +128,7 @@ const UploadPDFComponent: React.FC<UploadPDFProps> = ({
     if (validFiles.length > 0) {
       posthog.capture("pdf_upload_files_selected", {
         fileCount: validFiles.length,
-        fileTypes: validFiles.map((f) => f.type),
+        fileTypes: validFiles.map((f) => f.type)
       });
     }
 
@@ -149,6 +167,27 @@ const UploadPDFComponent: React.FC<UploadPDFProps> = ({
       formData.append("bid_id", bid_id);
     }
 
+    // Calculate duration based on file size
+    const fileSizeInMB = file.size / (1024 * 1024);
+    const durationPerMB = 30000; // 30 seconds in milliseconds
+    const duration = Math.max(
+      10000,
+      Math.min(300000, Math.round(fileSizeInMB * durationPerMB))
+    ); // Min 10s, max 5min
+
+    const startTime = Date.now();
+    const progressInterval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const artificialProgress = Math.min(
+        95,
+        Math.round((elapsed / duration) * 100)
+      );
+      setUploadProgress((prev) => ({
+        ...prev,
+        [file.name]: artificialProgress
+      }));
+    }, 1000);
+
     try {
       const response = await axios.post(apiUrl, formData, {
         headers: {
@@ -156,11 +195,16 @@ const UploadPDFComponent: React.FC<UploadPDFProps> = ({
           Authorization: `Bearer ${tokenRef.current}`
         }
       });
-      posthog.capture("pdf_upload_succeeded");
+
+      clearInterval(progressInterval);
+      setUploadProgress((prev) => ({
+        ...prev,
+        [file.name]: 100
+      }));
       setUploadedFiles((prev) => ({ ...prev, [file.name]: true }));
       return response.data;
     } catch (error) {
-      posthog.capture("pdf_upload_failed");
+      clearInterval(progressInterval);
       console.error("Error uploading file:", error);
       throw error;
     }
@@ -173,55 +217,118 @@ const UploadPDFComponent: React.FC<UploadPDFProps> = ({
     }
 
     setIsUploading(true);
-    let successCount = 0;
-    let failCount = 0;
 
-    for (const file of selectedFiles) {
-      try {
-        await uploadFile(file);
-        successCount++;
-      } catch (error) {
-        failCount++;
+    try {
+      const uploadPromises = selectedFiles.map((file) => uploadFile(file));
+      const results: UploadResult[] = await Promise.all(
+        uploadPromises.map((p) =>
+          p
+            .then((data) => ({ data }))
+            .catch((error) => ({ error: error as Error }))
+        )
+      );
+
+      const successCount = results.filter((result) => !result.error).length;
+      const failCount = results.filter((result) => result.error).length;
+
+      if (successCount > 0) {
+        displayAlert(
+          `Successfully uploaded ${successCount} file(s)`,
+          "success"
+        );
+        posthog.capture("pdf_upload_batch_completed", {
+          successCount,
+          failCount,
+          totalFiles: selectedFiles.length
+        });
+
+        // Call onUploadComplete immediately if there were no failures
+        if (failCount === 0 && onUploadComplete) {
+          onUploadComplete(selectedFiles);
+        }
+      }
+
+      if (failCount > 0) {
+        displayAlert(`Failed to upload ${failCount} file(s)`, "danger");
+      }
+    } catch (error) {
+      console.error("Error in batch upload:", error);
+      displayAlert("Error uploading files", "danger");
+    } finally {
+      setIsUploading(false);
+      if (get_collections) {
+        get_collections();
+      }
+      if (onClose) {
+        onClose();
       }
     }
+  };
+  const renderSelectedFiles = () => {
+    if (selectedFiles.length === 0) return null;
 
-    setIsUploading(false);
-    get_collections();
-
-    if (successCount > 0) {
-      displayAlert(`Successfully uploaded ${successCount} file(s)`, "success");
-      posthog.capture("pdf_upload_batch_completed", {
-        successCount,
-        failCount,
-        totalFiles: selectedFiles.length
-      });
-    }
-    if (failCount > 0) {
-      displayAlert(`Failed to upload ${failCount} file(s)`, "danger");
-    }
-
-    if (onClose) {
-      onClose();
-    }
+    return (
+      <div className="selected-files">
+        {selectedFiles.map((file, index) => (
+          <div key={index} className="file-item">
+            <div className="file-info">
+              <FontAwesomeIcon
+                icon={getFileIcon(file.type)}
+                className="file-icon"
+              />
+              <span className="file-name">{file.name}</span>
+            </div>
+            <div className="progress-container">
+              <div
+                className="progress-bar"
+                style={{
+                  width: `${uploadProgress[file.name] || 0}%`
+                }}
+              />
+            </div>
+            <span className="progress-text">
+              {uploadProgress[file.name] || 0}%
+            </span>
+          </div>
+        ))}
+      </div>
+    );
   };
 
+  // Helper function to get the appropriate icon based on file type
+  const getFileIcon = (fileType: string) => {
+    switch (getFileMode(fileType)) {
+      case "pdf":
+        return faFilePdf;
+      case "word":
+        return faFileWord;
+      case "excel":
+        return faFileExcel;
+      default:
+        return faFile;
+    }
+  };
   return (
     <div>
-      <p>{descriptionText}</p>
+      <p className="description-text">{descriptionText}</p>
+
       <div
-        className={`drop-zone ${dragActive ? "active" : ""}`}
+        className={`drop-zone ${dragActive ? "active" : ""} ${
+          isUploading ? "disabled" : ""
+        }`}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
-        onClick={() => fileInputRef.current.click()}
+        onClick={() => !isUploading && fileInputRef.current.click()}
         style={{
           border: "2px dashed #cccccc",
           borderRadius: "4px",
-          padding: "20px",
+          padding: "30px",
           textAlign: "center",
-          cursor: "pointer",
+          cursor: isUploading ? "not-allowed" : "pointer",
           backgroundColor: dragActive ? "#f0f0f0" : "white",
+          opacity: isUploading ? 0.6 : 1,
           transition: "all 0.3s ease"
         }}
       >
@@ -278,8 +385,12 @@ const UploadPDFComponent: React.FC<UploadPDFProps> = ({
               ))}
             </ul>
           </div>
-        )}
+          <div className="upload-subtext">Maximum file size 50 MB</div>
+        </div>
       </div>
+
+      {renderSelectedFiles()}
+
       <div style={{ marginTop: "20px", textAlign: "right" }}>
         <Button
           onClick={handleUpload}
@@ -288,12 +399,13 @@ const UploadPDFComponent: React.FC<UploadPDFProps> = ({
         >
           {isUploading
             ? "Uploading..."
-            : `Upload ${selectedFiles.length} File${selectedFiles.length !== 1 ? "s" : ""}`}
+            : `Upload ${selectedFiles.length} File${
+                selectedFiles.length !== 1 ? "s" : ""
+              }`}
         </Button>
       </div>
     </div>
   );
 };
 
-const UploadPDF = UploadPDFComponent;
-export default withAuth(UploadPDF);
+export default UploadPDF;

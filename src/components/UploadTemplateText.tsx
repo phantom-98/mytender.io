@@ -87,11 +87,11 @@ const UploadTemplateText = () => {
             "& .MuiOutlinedInput-root": {
               // Target the root of the outlined input
 
-              fontFamily: '"ClashDisplay", sans-serif' // Apply font family
+              fontFamily: '"Manrope", sans-serif' // Apply font family
             },
             "& .MuiInputLabel-root": {
               // Target the label of the TextField
-              fontFamily: '"ClashDisplay", sans-serif' // Apply font family to the label
+              fontFamily: '"Manrope", sans-serif' // Apply font family to the label
             }
           }}
         />

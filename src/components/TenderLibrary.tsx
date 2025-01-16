@@ -3,62 +3,30 @@ import { API_URL, HTTP_PREFIX } from "../helper/Constants";
 import axios from "axios";
 import withAuth from "../routes/withAuth";
 import { useAuthUser } from "react-auth-kit";
-import {
-  Button,
-  Col,
-  Row,
-  Card,
-  Modal,
-  FormControl,
-  InputGroup,
-  Spinner,
-  Table
-} from "react-bootstrap";
+import { Button, Col, Row, Card, Modal, Spinner, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrash,
   faFileAlt,
-  faSearch,
-  faQuestionCircle,
   faPlus,
-  faTimes,
-  faCloudUploadAlt,
-  faCheck,
-  faSpinner
+  faSort,
+  faSortUp,
+  faSortDown
 } from "@fortawesome/free-solid-svg-icons";
 import { Menu, MenuItem } from "@mui/material";
 import { displayAlert } from "../helper/Alert.tsx";
 import InterrogateTenderModal from "../modals/InterrogateTenderModal.tsx";
 import posthog from "posthog-js";
 import UploadPDF from "../views/UploadPDF.tsx";
-
-const getFileMode = (fileType) => {
-  if (fileType === "application/pdf") {
-    return "pdf";
-  } else if (
-    fileType === "application/msword" ||
-    fileType ===
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  ) {
-    return "word";
-  } else if (
-    fileType === "application/vnd.ms-excel" ||
-    fileType ===
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  ) {
-    return "excel";
-  }
-  return null;
-};
+import "./TenderLibrary.css";
 
 const TenderLibrary = ({ object_id }) => {
   const getAuth = useAuthUser();
   const auth = getAuth();
   const tokenRef = useRef(auth?.token || "default");
 
+  // Updated state to include timestamps
   const [documents, setDocuments] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [modalContent, setModalContent] = useState("");
   const [currentFileName, setCurrentFileName] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 6;
@@ -76,6 +44,35 @@ const TenderLibrary = ({ object_id }) => {
   const [wordFileContent, setWordFileContent] = useState(null);
   const [showExcelModal, setShowExcelModal] = useState(false);
   const [excelData, setExcelData] = useState(null);
+
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [isSorted, setIsSorted] = useState(false);
+
+  // Add this new function to handle sorting
+  const handleSort = () => {
+    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(newSortOrder);
+    setIsSorted(true);
+
+    const sortedDocs = [...documents].sort((a, b) => {
+      const filenameA = (a.filename || a).toLowerCase();
+      const filenameB = (b.filename || b).toLowerCase();
+
+      if (newSortOrder === "asc") {
+        return filenameA.localeCompare(filenameB);
+      } else {
+        return filenameB.localeCompare(filenameA);
+      }
+    });
+
+    setDocuments(sortedDocs);
+  };
+
+  // Get the correct sort icon based on current state
+  const getSortIcon = () => {
+    if (!isSorted) return faSort;
+    return sortOrder === "asc" ? faSortUp : faSortDown;
+  };
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -231,7 +228,7 @@ const TenderLibrary = ({ object_id }) => {
     if (documents.length === 0) {
       return (
         <tr>
-          <td colSpan="2" className="py-5">
+          <td colSpan="3" className="py-5">
             <div
               style={{
                 display: "flex",
@@ -241,19 +238,16 @@ const TenderLibrary = ({ object_id }) => {
                 minHeight: "250px"
               }}
             >
-              <div
-                style={{
-                  width: "750px" // Fixed width
-                }}
-              >
+              <div style={{ width: "750px" }}>
                 <p
                   style={{
                     fontSize: "18px",
+                    fontWeight: "500",
                     lineHeight: "1.6",
                     textAlign: "center",
                     margin: 0,
                     wordWrap: "break-word",
-                    whiteSpace: "normal", // Ensures text wraps
+                    whiteSpace: "normal",
                     marginBottom: "16px"
                   }}
                 >
@@ -269,19 +263,30 @@ const TenderLibrary = ({ object_id }) => {
         </tr>
       );
     }
-    const documentsToDisplay = documents;
 
-    return documentsToDisplay.map((filename, index) => (
+    return documents.map((doc, index) => (
       <tr key={index} style={{ cursor: "pointer" }}>
-        <td onClick={() => viewFile(filename)}>
-          <FontAwesomeIcon icon={faFileAlt} className="fa-icon" /> {filename}
+        <td
+          className="filename-column"
+          onClick={() => viewFile(doc.filename || doc)}
+        >
+          <FontAwesomeIcon icon={faFileAlt} className="fa-icon" />{" "}
+          {doc.filename || doc}
         </td>
-        <td>
+
+        <td className="timestamp-column">
+          {doc.upload_date
+            ? new Date(doc.upload_date).toLocaleDateString("en-GB")
+            : "N/A"}
+        </td>
+        <td className="actions-column">
           <FontAwesomeIcon
             icon={faTrash}
             className="action-icon delete-icon"
-            onClick={(event) => handleDeleteFileClick(event, filename)}
-            style={{ cursor: "pointer", marginRight: "15px" }}
+            onClick={(event) =>
+              handleDeleteFileClick(event, doc.filename || doc)
+            }
+            style={{ cursor: "pointer" }}
           />
         </td>
       </tr>
@@ -378,17 +383,17 @@ const TenderLibrary = ({ object_id }) => {
     <>
       <Row>
         <Col md={12}>
-          <Card className="mb-2">
+          <Card className="mb-2 p-2">
             <Card.Body className="tenderlibrary-card-body-content">
               <div className="library-card-content-wrapper">
                 <div className="header-row mt-2" id="tender-library">
                   <div className="lib-title">Tender Upload</div>
                   <div>
-                    <InterrogateTenderModal bid_id={object_id} />
+                    {/* <InterrogateTenderModal bid_id={object_id} /> */}
                     <Button
                       aria-controls="simple-menu"
                       aria-haspopup="true"
-                      onClick={handleMenuClick}
+                      onClick={() => handleMenuItemClick("pdf")}
                       className="upload-button"
                       style={{ marginLeft: "5px" }}
                     >
@@ -398,37 +403,38 @@ const TenderLibrary = ({ object_id }) => {
                       />
                       Upload Document
                     </Button>
-                    <Menu
-                      id="long-menu"
-                      anchorEl={anchorEl}
-                      keepMounted
-                      open={open}
-                      onClose={handleMenuClose}
-                      PaperProps={{
-                        style: {
-                          width: "220px" // Reduced width
-                        }
-                      }}
-                    >
-                      <MenuItem
-                        onClick={() => handleMenuItemClick("pdf")}
-                        className="styled-menu-item"
-                      >
-                        <i className="fas fa-file-pdf styled-menu-item-icon"></i>
-                        Upload PDF/Word/Excel
-                      </MenuItem>
-                    </Menu>
                   </div>
                 </div>
                 <div style={{ width: "100%", marginTop: "30px" }}>
-                  <table className="library-table">
+                  <table className="tender-library-table">
                     <thead>
                       <tr>
-                        <th>Documents</th>
-                        <th>Actions</th>
+                        <th className="filename-column">
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "8px",
+                              cursor: "pointer"
+                            }}
+                            onClick={handleSort}
+                          >
+                            Filename
+                            <FontAwesomeIcon
+                              icon={getSortIcon()}
+                              style={{
+                                fontSize: "14px",
+                                color: isSorted ? "#000" : "#999"
+                              }}
+                            />
+                          </div>
+                        </th>
+                        <th className="timestamp-column">Upload Date</th>
+                        <th className="actions-column">Actions</th>
                       </tr>
                     </thead>
                   </table>
+
                   <div
                     style={{
                       overflowY: "auto",
@@ -437,7 +443,10 @@ const TenderLibrary = ({ object_id }) => {
                       width: "100%"
                     }}
                   >
-                    <table style={{ width: "100%" }} className="library-table">
+                    <table
+                      style={{ width: "100%" }}
+                      className="tender-library-table"
+                    >
                       <tbody>{renderDocuments()}</tbody>
                     </table>
                   </div>
@@ -539,4 +548,4 @@ const TenderLibrary = ({ object_id }) => {
   );
 };
 
-export default withAuth(TenderLibrary);
+export default TenderLibrary;

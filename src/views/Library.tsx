@@ -36,6 +36,7 @@ import { displayAlert } from "../helper/Alert.tsx";
 import LibraryContextMenu from "../modals/LibraryContextMenu.tsx";
 import EllipsisMenu from "../buttons/EllipsisMenu.tsx";
 
+
 const NewFolderModal = React.memo(
   ({ show, onHide, onCreateFolder, title, parentFolder }) => {
     const [localNewFolderName, setLocalNewFolderName] = useState("");
@@ -155,6 +156,10 @@ const Library = () => {
 
   const [folderStructure, setFolderStructure] = useState({});
   const [expandedFolders, setExpandedFolders] = useState({});
+
+  const [movingFiles, setMovingFiles] = useState<{ [key: string]: boolean }>(
+    {}
+  );
 
   const [showPdfViewerModal, setShowPdfViewerModal] = useState(false);
   const [pdfUrl, setPdfUrl] = useState("");
@@ -294,7 +299,7 @@ const Library = () => {
       );
 
       const filesWithIds = response.data.map((item) => ({
-        filename: item.meta,
+        filename: item.filename,
         unique_id: item.unique_id,
         isFolder: false
       }));
@@ -716,6 +721,7 @@ const Library = () => {
   // }, [activeFolder, folderContents, availableCollections, rowsPerPage]);
 
   const formatDisplayName = (name) => {
+    if (typeof name !== "string") return "";
     return name.replace(/_/g, " ");
   };
 
@@ -868,6 +874,36 @@ const Library = () => {
                     filename: filename
                   });
                   setShowDeleteFileModal(true);
+                }}
+                availableFolders={availableCollections}
+                currentFolder={activeFolder}
+                isMoving={movingFiles[unique_id]}
+                onMove={async (newFolder) => {
+                  try {
+                    setMovingFiles((prev) => ({ ...prev, [unique_id]: true }));
+                    const formData = new FormData();
+                    formData.append("unique_id", unique_id);
+                    formData.append("new_folder", newFolder);
+
+                    await axios.post(
+                      `http${HTTP_PREFIX}://${API_URL}/move_file`,
+                      formData,
+                      {
+                        headers: {
+                          Authorization: `Bearer ${tokenRef.current}`,
+                          "Content-Type": "multipart/form-data"
+                        }
+                      }
+                    );
+
+                    await fetchFolderContents(activeFolder);
+                    displayAlert("File moved successfully", "success");
+                  } catch (error) {
+                    console.error("Error moving file:", error);
+                    displayAlert("Error moving file", "danger");
+                  } finally {
+                    setMovingFiles((prev) => ({ ...prev, [unique_id]: false }));
+                  }
                 }}
               />
             )}
@@ -1168,7 +1204,7 @@ const Library = () => {
                     New Subfolder
                   </MenuItem>
                 </Menu>
-                <div style={{ width: "100%", marginTop: "30px" }}>
+                <div style={{ width: "100%", marginTop: "20px" }}>
                   <table className="library-table">
                     <thead>
                       <tr>
@@ -1192,7 +1228,7 @@ const Library = () => {
                   <div
                     style={{
                       overflowY: "auto",
-                      maxHeight: "550px",
+                      maxHeight: "650px",
                       height: "100%",
                       width: "100%"
                     }}

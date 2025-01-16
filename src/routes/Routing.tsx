@@ -24,6 +24,8 @@ import ProposalPreview from "../views/ProposalPreview.tsx";
 import posthog from "posthog-js";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import ComplianceMatrix from "../views/ComplianceMatrix.tsx";
+import BidPlanner from "../views/BidPlanner.tsx";
 
 function Routing() {
   const location = useLocation();
@@ -50,7 +52,6 @@ function Routing() {
         <Route path="/uploadtemplatetext" element={<UploadTemplateText />} />
         <Route path="/qlog" element={<Log />} />
         <Route path="/flog" element={<FLog />} />
-        <Route path="/bids" element={<Bids />} />
         <Route path="/library" element={<Library />} />
         <Route path="/howto" element={<HowTo />} />
         <Route path="/profile" element={<ProfilePage />} />
@@ -59,11 +60,14 @@ function Routing() {
         <Route path="/question-answer" element={<QAGenerator />} />
         {/* Wrap related routes inside a single parent Route with BidManagement */}
         <Route element={<BidManagement />}>
-          <Route path="/bid-extractor" element={<BidExtractor />} />
+          {/* <Route path="/bid-extractor" element={<BidExtractor />} /> */}
+          <Route path="/bid-extractor" element={<BidPlanner />} />
           <Route path="/proposal-planner" element={<ProposalPlan />} />
           <Route path="/question-crafter" element={<QuestionCrafter />} />
+          <Route path="/compliance-matrix" element={<ComplianceMatrix />} />
           <Route path="/proposal" element={<Proposal />} />
           <Route path="/proposal-preview" element={<ProposalPreview />} />
+          <Route path="/bids" element={<Bids />} />
         </Route>
       </Routes>
     </div>

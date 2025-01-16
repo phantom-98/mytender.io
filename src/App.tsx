@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import { AuthProvider, useAuthUser } from "react-auth-kit";
 import "./App.css";
-import "./resources/clash-display.css";
+import "./resources/manrope.css";
 import NavBar from "./routes/NavBar";
 import Routing from "./routes/Routing";
 import ReactGA4 from "react-ga4";
@@ -48,28 +48,10 @@ const Layout = () => {
   }, [auth?.token]);
 
   const isAuthenticated = auth?.token !== undefined;
-  const showNavBarPaths = [
-    "/library",
-    "/howto",
-    "/bids",
-    "/proposal-planner",
-    "/dashboard",
-    "/chatResponse",
-    "/bid-extractor",
-    "/question-crafter",
-    "/proposal",
-    "/profile",
-    "/calculator",
-    "/question-answer",
-    "/proposal-preview",
-    "/"
-  ];
-  const shouldShowNavBar = showNavBarPaths.includes(location.pathname);
-
   return (
     <>
       {isAuthenticated && <AutoLogout />}
-      {shouldShowNavBar && <NavBar />}
+     
       <div className="main-content">
         <Routing />
       </div>

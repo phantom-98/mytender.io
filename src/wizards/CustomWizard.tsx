@@ -135,7 +135,7 @@ const CustomWizard = ({ steps, isShow, onClose }) => {
               disabled={currentStep === 0}
               className="font-clash-display"
               style={{
-                fontFamily: "ClashDisplay, sans-serif",
+                fontFamily: "Manrope, sans-serif",
                 color: "white",
                 borderColor: "white",
                 backgroundColor: "black",
@@ -152,7 +152,7 @@ const CustomWizard = ({ steps, isShow, onClose }) => {
               onClick={handleNext}
               className="font-clash-display"
               style={{
-                fontFamily: "ClashDisplay, sans-serif",
+                fontFamily: "Manrope, sans-serif",
                 color: "white",
                 backgroundColor: "black",
                 padding: "4px 12px",

@@ -1,88 +1,88 @@
 .input-options-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 0;
-  font-family: "ClashDisplay", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 0;
+    font-family: "Manrope", sans-serif;
 }
 
 .orange-button {
-  background-color: #fff1e6;
-  color: #ff6600;
-  border: 1px solid #ff6600;
-  padding: 6px 14px;
-  /* Increased padding */
-  cursor: pointer;
-  font-weight: 550;
-  font-size: 0.9rem;
-  /* Increased font size */
-  border-radius: 4px;
-  outline: none !important;
-  box-shadow: none !important;
-  min-width: fit-content;
-  min-height: 38px;
-  /* Added min-height */
-  transition: background-color 0.2s ease;
+    background-color: #fff1e6;
+    color: #ff6600;
+    border: 1px solid #ff6600;
+    padding: 6px 14px;
+    /* Increased padding */
+    cursor: pointer;
+    font-weight: 550;
+    font-size: 0.9rem;
+    /* Increased font size */
+    border-radius: 4px;
+    outline: none !important;
+    box-shadow: none !important;
+    min-width: fit-content;
+    min-height: 38px;
+    /* Added min-height */
+    transition: background-color 0.2s ease;
 }
 
 .orange-button:hover {
-  background-color: #ffe0cc !important;
+    background-color: #ffe0cc !important;
 }
 
 .orange-button:disabled {
-  background-color: #fff5eb !important;
-  cursor: not-allowed;
-  opacity: 0.7;
-  color: #ff944d !important;
+    background-color: #fff5eb !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+    color: #ff944d !important;
 }
 
 .orange-button:disabled:hover {
-  background-color: #fff5eb !important;
+    background-color: #fff5eb !important;
 }
 
 .upload-button {
-  background-color: #262626;
-  color: white;
-  padding: 6px 14px;
-  border: none;
-  cursor: pointer;
-  font-weight: 550;
-  font-size: 0.9rem;
-  border-radius: 4px;
-  outline: none !important;
-  box-shadow: none !important;
-  min-width: fit-content;
-  transition: background-color 0.2s ease;
+    background-color: #262626;
+    color: white;
+    padding: 6px 14px;
+    border: none;
+    cursor: pointer;
+    font-weight: 550;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    outline: none !important;
+    box-shadow: none !important;
+    min-width: fit-content;
+    transition: background-color 0.2s ease;
 }
 
 .uploader-input {
-  width: 700px !important;
-  font-family: "ClashDisplay", sans-serif !important;
-  font-weight: bolder;
+    width: 700px !important;
+    font-family: "Manrope", sans-serif !important;
+    font-weight: bolder;
 }
 
 .upload-button:disabled,
 .upload-button.btn-disabled {
-  background-color: #262626 !important;
-  /* Black background when disabled */
-  color: white !important;
-  cursor: not-allowed;
+    background-color: #262626 !important;
+    /* Black background when disabled */
+    color: white !important;
+    cursor: not-allowed;
 }
 
 .upload-button:hover:not(:disabled) {
-  background-color: #3b3b3b;
+    background-color: #3b3b3b;
 }
 
 .upload-button:active:not(:disabled) {
-  background-color: #3b3b3b;
+    background-color: #3b3b3b;
 }
 
 .upload-button:focus,
 .upload-button:focus-visible {
-  outline: none !important;
-  box-shadow: none !important;
-  background-color: #262626;
-  /* Ensures it doesn't flash blue */
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: #262626;
+    /* Ensures it doesn't flash blue */
 }

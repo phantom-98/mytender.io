@@ -37,7 +37,7 @@ const VideoCard = ({ videoUrl, videoTitle, channelName, views, time }) => {
               variant="h6"
               component="div"
               sx={{
-                fontFamily: "ClashDisplay",
+                fontFamily: "Manrope",
                 marginBottom: "-5px",
                 fontWeight: "600"
               }}
@@ -47,7 +47,7 @@ const VideoCard = ({ videoUrl, videoTitle, channelName, views, time }) => {
             <Typography
               variant="body2"
               color="text.secondary"
-              sx={{ fontFamily: "ClashDisplay", mt: 0, fontWeight: "550" }}
+              sx={{ fontFamily: "Manrope", mt: 0, fontWeight: "550" }}
             >
               {views}
             </Typography>

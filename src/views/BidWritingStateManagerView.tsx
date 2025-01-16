@@ -50,7 +50,12 @@ export interface SharedState {
   bidInfo: string;
   opportunity_information: string;
   compliance_requirements: string;
+  tender_summary: string;
+  evaluation_criteria: string;
+  derive_insights: string;
+  differentiation_opportunities: string;
   questions: string;
+  value: string;
   client_name: string;
   bid_qualification_result: string;
   opportunity_owner: string;
@@ -79,7 +84,12 @@ const defaultState: BidContextType = {
     bidInfo: "",
     opportunity_information: "",
     compliance_requirements: "",
+    tender_summary: "",
+    evaluation_criteria: "",
+    derive_insights: "",
+    differentiation_opportunities: "",
     questions: "",
+    value: "",
     client_name: "",
     bid_qualification_result: "",
     opportunity_owner: "",
@@ -193,8 +203,13 @@ const BidManagement: React.FC = () => {
         bidInfo,
         compliance_requirements,
         opportunity_information,
+        tender_summary,
+        evaluation_criteria,
+        derive_insights,
+        differentiation_opportunities,
         bid_qualification_result,
         client_name,
+        value,
         opportunity_owner,
         submission_deadline,
         bid_manager,
@@ -226,8 +241,16 @@ const BidManagement: React.FC = () => {
       appendFormData("bid_title", bidInfo);
       appendFormData("status", "ongoing");
       appendFormData("contract_information", backgroundInfo);
+      appendFormData("value", value);
       appendFormData("compliance_requirements", compliance_requirements);
       appendFormData("opportunity_information", opportunity_information);
+      appendFormData("tender_summary", tender_summary);
+      appendFormData("evaluation_criteria", evaluation_criteria);
+      appendFormData("derive_insights", derive_insights);
+      appendFormData(
+        "differentiation_opportunities",
+        differentiation_opportunities
+      );
       appendFormData("client_name", client_name);
       appendFormData("bid_qualification_result", bid_qualification_result);
       appendFormData("opportunity_owner", opportunity_owner);
@@ -295,12 +318,17 @@ const BidManagement: React.FC = () => {
   useEffect(() => {
     // Skip if already saving
     if (isSavingRef.current) {
+      console.log("Skipping autosave - already saving");
       return;
     }
 
-    console.log("autosave triggered by:", {
-      outline: sharedState.outline,
-      lastUpdated: sharedState.lastUpdated
+    console.log("State change detected:", {
+      bidInfo: sharedState.bidInfo,
+      value: sharedState.value,
+      submission_deadline: sharedState.submission_deadline,
+      lastUpdated: sharedState.lastUpdated,
+      isSavingRef: isSavingRef.current,
+      canSave: canUserSave()
     });
 
     // Immediately save current state to localStorage
@@ -310,10 +338,12 @@ const BidManagement: React.FC = () => {
     };
 
     localStorage.setItem("bidState", JSON.stringify(stateToSave));
+    console.log("State saved to localStorage");
 
     // Clear any existing save timer
     if (typingTimeout) {
       clearTimeout(typingTimeout);
+      console.log("Cleared existing save timer");
     }
 
     // Set new timer for auto-save
@@ -329,6 +359,10 @@ const BidManagement: React.FC = () => {
     sharedState.bidInfo,
     sharedState.opportunity_information,
     sharedState.compliance_requirements,
+    sharedState.tender_summary,
+    sharedState.evaluation_criteria,
+    sharedState.derive_insights,
+    sharedState.differentiation_opportunities,
     sharedState.questions,
     sharedState.client_name,
     sharedState.bid_qualification_result,

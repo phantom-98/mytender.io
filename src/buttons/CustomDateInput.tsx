@@ -1,18 +1,25 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./CustomDateInput.css";
 
-const CustomDateInput = ({ value, onChange, disabled }) => {
+const CustomDateInput = ({ 
+  value, 
+  onChange, 
+  disabled = false, 
+  defaultValue = new Date().toISOString().split('T')[0] // Default to current date
+}) => {
   const dateInputRef = useRef(null);
   const [displayValue, setDisplayValue] = useState("");
 
   useEffect(() => {
-    if (value) {
-      const date = new Date(value);
+    // Handle both value prop and defaultValue
+    const dateToUse = value || defaultValue;
+    if (dateToUse) {
+      const date = new Date(dateToUse);
       if (!isNaN(date.getTime())) {
         setDisplayValue(formatDate(date));
       }
     }
-  }, [value]);
+  }, [value, defaultValue]);
 
   const formatDate = (date) => {
     const day = date.getDate().toString().padStart(2, "0");
@@ -48,7 +55,7 @@ const CustomDateInput = ({ value, onChange, disabled }) => {
       <input
         ref={dateInputRef}
         type="date"
-        value={value || ""}
+        value={value || defaultValue || ""}
         onChange={handleDateChange}
         disabled={disabled}
         className="hidden-date-input"

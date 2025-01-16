@@ -20,7 +20,6 @@ const SelectFolder = ({ onFolderSelect, initialSelectedFolders = [] }) => {
   const [availableCollections, setAvailableCollections] = useState([]);
   const [folderContents, setFolderContents] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 7;
   const [totalPages, setTotalPages] = useState(0);
   const [activeFolder, setActiveFolder] = useState(null);
   const [selectedFolders, setSelectedFolders] = useState(() => {
@@ -46,10 +45,6 @@ const SelectFolder = ({ onFolderSelect, initialSelectedFolders = [] }) => {
       if (b === "default") return 1;
       return a.localeCompare(b);
     });
-  };
-
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
   };
 
   const renderBreadcrumbs = () => {
@@ -210,26 +205,24 @@ const SelectFolder = ({ onFolderSelect, initialSelectedFolders = [] }) => {
     if (activeFolder === null) {
       const topLevelFolders = getTopLevelFolders();
       const itemsCount = topLevelFolders.length;
-      const pages = Math.ceil(itemsCount / rowsPerPage);
+      const pages = Math.ceil(itemsCount);
       setTotalPages(pages);
       setCurrentPage(1);
     } else {
       const itemsCount = folderContents[activeFolder]?.length || 0;
-      const pages = Math.ceil(itemsCount / rowsPerPage);
+      const pages = Math.ceil(itemsCount);
       setTotalPages(pages);
       setCurrentPage(1);
     }
-  }, [activeFolder, folderContents, availableCollections, rowsPerPage]);
+  }, [activeFolder, folderContents, availableCollections]);
 
   const formatDisplayName = (name) => {
     return name.replace(/_/g, " ");
   };
 
-  const renderFolderStructure = (structure, path = "") => {
+  const renderFolderStructure = () => {
     const topLevelFolders = getTopLevelFolders();
-    const startIndex = (currentPage - 1) * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
-    const foldersToRender = topLevelFolders.slice(startIndex, endIndex);
+    const foldersToRender = topLevelFolders;
 
     return foldersToRender.map((folderName) => {
       const displayName =
@@ -263,12 +256,10 @@ const SelectFolder = ({ onFolderSelect, initialSelectedFolders = [] }) => {
 
   const renderFolderContents = (folderPath) => {
     const contents = folderContents[folderPath] || [];
-    const startIndex = (currentPage - 1) * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
-    const contentsToRender = contents.slice(startIndex, endIndex);
+    const contentsToRender = contents;
     console.log(contentsToRender.length);
 
-    return contentsToRender.map(({ filename, unique_id, isFolder }, index) => {
+    return contentsToRender.map(({ filename, isFolder }, index) => {
       const fullPath = isFolder
         ? `${folderPath}FORWARDSLASH${filename}`
         : folderPath;
@@ -304,7 +295,10 @@ const SelectFolder = ({ onFolderSelect, initialSelectedFolders = [] }) => {
   return (
     <Card className="select-library-card-custom mt-0 mb-0">
       <Card.Body className="select-library-card-body-content">
-        <div className="select-library-card-content-wrapper">
+        <div
+          className="select-library-card-content-wrapper p-4"
+          style={{ overflowY: "auto" }}
+        >
           <div className="breadcrumb-and-back-container">
             <div className="breadcrumb-container">{renderBreadcrumbs()}</div>
             {activeFolder && (
@@ -333,20 +327,6 @@ const SelectFolder = ({ onFolderSelect, initialSelectedFolders = [] }) => {
               </tbody>
             </table>
           )}
-
-          <div className="pagination-controls">
-            {totalPages > 1 &&
-              [...Array(totalPages)].map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => paginate(i + 1)}
-                  disabled={currentPage === i + 1}
-                  className="pagination-button"
-                >
-                  {i + 1}
-                </button>
-              ))}
-          </div>
         </div>
       </Card.Body>
       <style jsx>{`
@@ -358,4 +338,4 @@ const SelectFolder = ({ onFolderSelect, initialSelectedFolders = [] }) => {
   );
 };
 
-export default withAuth(SelectFolder);
+export default SelectFolder;

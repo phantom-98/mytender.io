@@ -149,6 +149,13 @@ const BidNavbar = ({
             Proposal Outline
           </NavLink>
           <NavLink
+            to="/compliance-matrix"
+            className={`bidnav-item ${activeTab === "/compliance-matrix" ? "active" : ""}`}
+            onClick={() => handleTabClick("/compliance-matrix")}
+          >
+            Compliance Matrix
+          </NavLink>
+          <NavLink
             to="/proposal-preview"
             className={`bidnav-item ${activeTab === "/proposal-preview" ? "active" : ""}`}
             onClick={() => handleTabClick("/proposal-preview")}

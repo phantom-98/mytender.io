@@ -1,9 +1,8 @@
 :root {
-    font-family: "ClashDisplay", sans-serif;
+    font-family: "Manrope", sans-serif;
     line-height: 1.5;
     font-weight: 400;
     color-scheme: light dark;
-    color: #faf7f7;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -26,14 +25,15 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    font-family: "ClashDisplay", sans-serif;
+    font-family: "Manrope", sans-serif;
     font-weight: 450;
     overflow: hidden !important;
 }
 
 h1 {
-    font-size: 3.2em;
+    font-size: 2.5rem;
     line-height: 1.1;
+    font-weight: 700 !important;
 }
 
 @media (prefers-color-scheme: light) {
