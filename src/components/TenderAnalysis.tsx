@@ -201,17 +201,15 @@ const TenderAnalysis = ({ canUserEdit }) => {
         ))}
       </div>
       <div className="proposal-container">
-        <Row className="justify-content-md-center">
-          <Col md={12}>
+       
             <textarea
               className="tender-insights-textarea"
               value={tabContent[currentTabIndex]}
               onChange={handleTextChange}
               placeholder={getPlaceholderText(currentTabIndex)}
-              disabled={!canUserEdit}
-            />
-          </Col>
-        </Row>
+              disabled={!canUserEdit}/>
+         
+     
       </div>
     </div>
   );
