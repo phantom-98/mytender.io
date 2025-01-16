@@ -50,6 +50,10 @@ export interface SharedState {
   bidInfo: string;
   opportunity_information: string;
   compliance_requirements: string;
+  tender_summary: string;
+  evaluation_criteria: string;
+  derive_insights: string;
+  differentiation_opportunities: string;
   questions: string;
   value: string;
   client_name: string;
@@ -80,6 +84,10 @@ const defaultState: BidContextType = {
     bidInfo: "",
     opportunity_information: "",
     compliance_requirements: "",
+    tender_summary: "",
+    evaluation_criteria: "",
+    derive_insights: "",
+    differentiation_opportunities: "",
     questions: "",
     value: "",
     client_name: "",
@@ -195,6 +203,10 @@ const BidManagement: React.FC = () => {
         bidInfo,
         compliance_requirements,
         opportunity_information,
+        tender_summary,
+        evaluation_criteria,
+        derive_insights,
+        differentiation_opportunities,
         bid_qualification_result,
         client_name,
         value,
@@ -232,6 +244,13 @@ const BidManagement: React.FC = () => {
       appendFormData("value", value);
       appendFormData("compliance_requirements", compliance_requirements);
       appendFormData("opportunity_information", opportunity_information);
+      appendFormData("tender_summary", tender_summary);
+      appendFormData("evaluation_criteria", evaluation_criteria);
+      appendFormData("derive_insights", derive_insights);
+      appendFormData(
+        "differentiation_opportunities",
+        differentiation_opportunities
+      );
       appendFormData("client_name", client_name);
       appendFormData("bid_qualification_result", bid_qualification_result);
       appendFormData("opportunity_owner", opportunity_owner);
@@ -340,6 +359,10 @@ const BidManagement: React.FC = () => {
     sharedState.bidInfo,
     sharedState.opportunity_information,
     sharedState.compliance_requirements,
+    sharedState.tender_summary,
+    sharedState.evaluation_criteria,
+    sharedState.derive_insights,
+    sharedState.differentiation_opportunities,
     sharedState.questions,
     sharedState.client_name,
     sharedState.bid_qualification_result,

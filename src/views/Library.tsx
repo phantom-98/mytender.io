@@ -36,6 +36,7 @@ import { displayAlert } from "../helper/Alert.tsx";
 import LibraryContextMenu from "../modals/LibraryContextMenu.tsx";
 import EllipsisMenu from "../buttons/EllipsisMenu.tsx";
 
+
 const NewFolderModal = React.memo(
   ({ show, onHide, onCreateFolder, title, parentFolder }) => {
     const [localNewFolderName, setLocalNewFolderName] = useState("");
@@ -156,7 +157,9 @@ const Library = () => {
   const [folderStructure, setFolderStructure] = useState({});
   const [expandedFolders, setExpandedFolders] = useState({});
 
-  const [movingFiles, setMovingFiles] = useState<{[key: string]: boolean}>({});
+  const [movingFiles, setMovingFiles] = useState<{ [key: string]: boolean }>(
+    {}
+  );
 
   const [showPdfViewerModal, setShowPdfViewerModal] = useState(false);
   const [pdfUrl, setPdfUrl] = useState("");
